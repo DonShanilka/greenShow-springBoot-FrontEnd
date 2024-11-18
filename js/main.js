@@ -1,12 +1,12 @@
 function showSection(sectionId) {
 
     document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active', 'bg-primary', '#008000');
+    item.classList.remove('active', 'bg-primary', 'text-primary');
     item.classList.add('text-gray-800');
     });
 
     // Add active class and change background color for clicked nav item
-    event.currentTarget.classList.add('active', 'bg-primary', '#008000');
+    event.currentTarget.classList.add('active', 'bg-primary', 'text-primary');
     event.currentTarget.classList.remove('text-gray-800');
 
     // Remove active class from all nav items
