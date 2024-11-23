@@ -18,7 +18,6 @@ function addVehicle(event) {
         fuelType: form.fuelType.value,
         status: form.status.value,
         remarks: form.remarks.value,
-        image: form.image.files[0] ? URL.createObjectURL(form.image.files[0]) : ''
     };
     vehicleData.push(newVehicle);
     updateVehicleTable();
@@ -37,13 +36,34 @@ function updateVehicle(event) {
         fuelType: form.fuelType.value,
         status: form.status.value,
         remarks: form.remarks.value,
-        image: form.image.files[0] ? URL.createObjectURL(form.image.files[0]) : ''
     };
     const index = vehicleData.findIndex(v => v.vehicleCode === form.vehicleCode.value);
     vehicleData[index] = updatedVehicle;
     updateVehicleTable();
     form.reset();
     toggleEditVehicleModal();
+}
+
+// Delete vehicle
+function deleteVehicle(vehicleCode) {
+    vehicleData = vehicleData.filter(vehicle => vehicle.vehicleCode !== vehicleCode);
+    updateVehicleTable();
+}
+
+// Edit vehicle and populate the form for editing
+function editVehicle(vehicleCode) {
+    const vehicle = vehicleData.find(v => v.vehicleCode === vehicleCode);
+    const form = document.getElementById('editVehicleForm');
+    
+    // Populate the form fields with vehicle data
+    form.vehicleCode.value = vehicle.vehicleCode;
+    form.licensePlate.value = vehicle.licensePlate;
+    form.category.value = vehicle.category;
+    form.fuelType.value = vehicle.fuelType;
+    form.status.value = vehicle.status;
+    form.remarks.value = vehicle.remarks;
+
+    toggleEditVehicleModal(); // Open the modal
 }
 
 // Vehicle data array
@@ -62,10 +82,15 @@ function updateVehicleTable() {
             <td class="px-6 py-4 text-sm text-gray-800">${vehicle.fuelType}</td>
             <td class="px-6 py-4 text-sm text-gray-800">${vehicle.status}</td>
             <td class="px-6 py-4 text-sm text-gray-800">
-                <img src="${vehicle.image}" alt="Vehicle Image" class="w-16 h-16 object-cover rounded-lg">
+                <img src="${vehicle.remarks}" alt="Vehicle Image" class="w-16 h-16 object-cover rounded-lg">
             </td>
             <td class="px-6 py-4 text-sm text-gray-800">
-                <button onclick="editVehicle('${vehicle.vehicleCode}')" class="text-blue-600 hover:text-blue-800">Edit</button>
+                <span onclick="editVehicle('${vehicle.vehicleCode}')" class="icon-btn text-blue-500 hover:text-blue-600">
+                    <i class="fas fa-edit"></i>
+                </span>
+                <span onclick="deleteVehicle('${vehicle.vehicleCode}')" class="icon-btn text-red-500 hover:text-red-600">
+                    <i class="fas fa-trash-alt"></i>
+                </span>
             </td>
         `;
         tableBody.appendChild(row);
