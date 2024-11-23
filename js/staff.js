@@ -1,59 +1,145 @@
-// Populate Edit Form and Open Modal
-function editStaff(button) {
-    const row = button.closest("tr");
-    const modal = document.getElementById("editStaffModal");
 
-    // Example: Assuming row has additional `data-*` attributes storing staff info
-    const form = document.getElementById("editStaffForm");
-    form.staffId.value = row.getAttribute("data-id");
-    form.firstName.value = row.getAttribute("data-firstname");
-    form.lastName.value = row.getAttribute("data-lastname");
-    form.designation.value = row.getAttribute("data-designation");
-    form.gender.value = row.getAttribute("data-gender");
-    form.joinedDate.value = row.getAttribute("data-joineddate");
-    form.dob.value = row.getAttribute("data-dob");
-    form.addressLine1.value = row.getAttribute("data-addressline1");
-    form.addressLine2.value = row.getAttribute("data-addressline2");
-    form.addressLine3.value = row.getAttribute("data-addressline3");
-    form.addressLine4.value = row.getAttribute("data-addressline4");
-    form.addressLine5.value = row.getAttribute("data-addressline5");
-    form.contactNo.value = row.getAttribute("data-contactno");
-    form.email.value = row.getAttribute("data-email");
-    form.role.value = row.getAttribute("data-role");
+// This array will store all the staff data
+let staffData = [];
 
-    toggleEditStaffModal();
+// Function to toggle visibility of the Add Staff Modal
+function toggleAddStaffModal() {
+    const modal = document.getElementById('addStaffModal');
+    modal.classList.toggle('hidden'); // Show or hide the modal
 }
 
-// Update Staff Information
-function updateStaff(event) {
-    event.preventDefault();
+// Function to handle form submission and add new staff
+function saveStaff(event) {
+    event.preventDefault(); // Prevent the form from refreshing the page
 
-    const form = document.getElementById("editStaffForm");
-    const staffId = form.staffId.value;
+    // Get form data
+    const form = event.target;
+    const newStaff = {
+        id: staffData.length + 1, // Automatically generate ID based on current staff count
+        firstName: form.firstName.value,
+        lastName: form.lastName.value,
+        designation: form.designation.value,
+        gender: form.gender.value,
+        joinedDate: form.joinedDate.value,
+        dob: form.dob.value,
+        contactNo: form.contactNo.value,
+        email: form.email.value,
+        role: form.role.value,
+        addressLine1: form.addressLine1.value,
+        addressLine2: form.addressLine2.value,
+        addressLine3: form.addressLine3.value,
+        addressLine4: form.addressLine4.value,
+        addressLine5: form.addressLine5.value
+    };
 
-    // Find row by ID and update its content
-    const staffTableBody = document.getElementById("staffTableBody");
-    const rows = staffTableBody.getElementsByTagName("tr");
+    // Add the new staff to the staffData array
+    staffData.push(newStaff);
 
-    for (let row of rows) {
-        if (row.getAttribute("data-id") === staffId) {
-            row.setAttribute("data-firstname", form.firstName.value.trim());
-            row.setAttribute("data-lastname", form.lastName.value.trim());
-            row.setAttribute("data-designation", form.designation.value.trim());
-            row.setAttribute("data-gender", form.gender.value);
-            row.setAttribute("data-joineddate", form.joinedDate.value);
-            row.setAttribute("data-dob", form.dob.value);
-            row.setAttribute("data-addressline1", form.addressLine1.value.trim());
-            row.setAttribute("data-addressline2", form.addressLine2.value.trim());
-            row.setAttribute("data-addressline3", form.addressLine3.value.trim());
-            row.setAttribute("data-addressline4", form.addressLine4.value.trim());
-            row.setAttribute("data-addressline5", form.addressLine5.value.trim());
-            row.setAttribute("data-contactno", form.contactNo.value.trim());
-            row.setAttribute("data-email", form.email.value.trim());
-            row.setAttribute("data-role", form.role.value.trim());
-            break;
-        }
+    // Update the table with the new staff data
+    updateStaffTable();
+
+    // Reset the form fields
+    form.reset();
+
+    // Close the modal after saving
+    toggleAddStaffModal();
+}
+
+// Function to render the staff data in the table
+function updateStaffTable() {
+    const tableBody = document.getElementById('staffTableBody');
+    tableBody.innerHTML = ''; // Clear the current table rows
+
+    // Loop through the staffData array and create a row for each staff member
+    staffData.forEach(staff => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.id}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.firstName}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.lastName}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.designation}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.gender}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.joinedDate}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.dob}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine1}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine2}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine3}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine4}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine5}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.contactNo}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.email}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${staff.role}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">
+                <button onclick="editStaff(${staff.id})" class="text-blue-600 hover:text-blue-800">Edit</button>
+                <button onclick="deleteStaff(${staff.id})" class="text-red-600 hover:text-red-800">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to delete a staff member
+function deleteStaff(id) {
+    // Remove the staff member from the staffData array
+    staffData = staffData.filter(staff => staff.id !== id);
+
+    // Re-render the table
+    updateStaffTable();
+}
+
+// Function to edit staff member (just a basic placeholder, you'll implement the actual edit logic)
+function editStaff(id) {
+    // Find the staff member to edit
+    const staff = staffData.find(staff => staff.id === id);
+
+    if (staff) {
+        // You can use the staff object to pre-fill the edit form
+        console.log('Editing staff:', staff);
+        // Ideally, you'd show an edit modal with the staff's current data pre-filled in the form fields
     }
-
-    toggleEditStaffModal();
 }
+
+// Function to initialize the page with some sample data (optional, for testing purposes)
+document.addEventListener('DOMContentLoaded', () => {
+    // Sample data to test the functionality
+    staffData = [
+        {
+            id: 1,
+            firstName: 'John',
+            lastName: 'Doe',
+            designation: 'Manager',
+            gender: 'Male',
+            joinedDate: '2022-01-01',
+            dob: '1985-05-15',
+            contactNo: '123-456-7890',
+            email: 'john.doe@example.com',
+            role: 'Manager',
+            addressLine1: '123 Main St',
+            addressLine2: 'Apt 101',
+            addressLine3: 'City Center',
+            addressLine4: 'New York',
+            addressLine5: 'NY 10001',
+        },
+        {
+            id: 2,
+            firstName: 'Jane',
+            lastName: 'Smith',
+            designation: 'Developer',
+            gender: 'Female',
+            joinedDate: '2023-02-20',
+            dob: '1990-07-23',
+            contactNo: '234-567-8901',
+            email: 'jane.smith@example.com',
+            role: 'Developer',
+            addressLine1: '456 Oak St',
+            addressLine2: 'Suite 5B',
+            addressLine3: 'Brooklyn',
+            addressLine4: 'New York',
+            addressLine5: 'NY 11201',
+        }
+    ];
+
+    // Render the initial table
+    updateStaffTable();
+});
+
