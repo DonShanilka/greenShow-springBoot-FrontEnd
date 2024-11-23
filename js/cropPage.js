@@ -49,9 +49,13 @@ function addCrop(event) {
             <td class="px-6 py-4">${season}</td>
             <td class="px-6 py-4 flex gap-2">
                 <button onclick="editCrop(this)" 
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Edit</button>
+                    class="text-blue-500 hover:text-blue-600">
+                    <i class="fas fa-edit text-lg"></i>
+                    </button>
                 <button onclick="deleteCrop(this)" 
-                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                    class="text-red-500 hover:text-red-600">
+                    <i class="fas fa-trash text-lg"></i>    
+                </button>
             </td>
         </tr>
     `;
