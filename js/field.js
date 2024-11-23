@@ -1,12 +1,12 @@
 // Add Modal Toggle
-function toggleAddModal() {
-    const addModal = document.getElementById("addModal");
+function ftoggleAddModal() {
+    const addModal = document.getElementById("fieldaddModal");
     addModal.classList.toggle("hidden");
 }
 
 // Edit Modal Toggle
-function toggleEditModal() {
-    const editModal = document.getElementById("editModal");
+function ftoggleEditModal() {
+    const editModal = document.getElementById("fieldeditModal");
     editModal.classList.toggle("hidden");
 }
 
@@ -25,9 +25,9 @@ function previewImage(input, previewId) {
 }
 
 // Add Crop
-function addCrop(event) {
+function addField(event) {
     event.preventDefault();
-    const form = document.getElementById("addCropForm");
+    const form = document.getElementById("addFieldForm");
     const cropTableBody = document.getElementById("cropTableBody");
 
     // Extract form data
@@ -64,7 +64,7 @@ document.getElementById('cropTableBody').innerHTML += newRow;
 
 
     // Close modal and reset form
-    toggleAddModal();
+    ftoggleAddModal();
     form.reset();
 }
 
