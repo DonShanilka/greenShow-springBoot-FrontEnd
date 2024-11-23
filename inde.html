@@ -28,10 +28,10 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-white min-h-screen">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-gray-50 text-gray-800 shadow-xl flex flex-col transition-all duration-300">
+        <div class="w-64 bg-white text-gray-800 shadow-xl flex flex-col transition-all duration-300">
             <!-- Logo -->
             <div class="px-6 py-8">
                 <h1 class="text-2xl font-bold tracking-wider text-primary-dark">Green Show</h1>
@@ -90,7 +90,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+        <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
             <div class="container mx-auto px-6 py-8">
                 <!-- Dashboard Section -->
                 <section id="dashboard" class="content-section active fade-in">
@@ -136,49 +136,53 @@
 
 <!-- ################################################### Crop Section ###################################################### -->
 <section id="crops" class="content-section fade-in">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-2">
         <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">Crop Management System</h1>
+        <div class="mb-10">
+            <h1 class="text-3xl font-bold text-gray-800">Crop Management</h1>
             <p class="text-gray-600">Manage your crop database efficiently</p>
         </div>
 
         <!-- Search and Add Button Container -->
-        <div class="flex justify-between items-center mb-6 bg-white p-6 rounded-xl shadow-lg">
+        <div class="flex justify-between items-center mb-6 bg-white p-2 rounded-md shadow-md">
             <div class="relative w-96">
                 <input type="text" id="searchInput" placeholder="Search crops..." 
-                    class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200">
                 <div class="absolute left-4 top-3.5 text-gray-400">
                     <i class="fas fa-search text-lg"></i>
                 </div>
             </div>
             <button onclick="toggleAddModal()" 
-                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition duration-300 shadow-md hover:shadow-lg">
+                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md flex items-center gap-2 transition duration-300 shadow-md hover:shadow-lg">
                 <i class="fas fa-plus"></i>
-                Add New Crop
+                Add Crop
             </button>
         </div>
 
         <!-- Table -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-white rounded-md shadow-lg overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Crop Name</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scientific Name</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Season</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200" id="cropTableBody">
-                        <!-- Table rows will be populated by JavaScript -->
-                    </tbody>
-                </table>
+                <!-- Add a container to enable vertical scrolling -->
+                <div class="h-96" style="overflow-y: auto;">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-300">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Image</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Crop Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Scientific Name</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Category</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Season</th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="cropTableBody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+        
 
         <!-- Add Crop Modal -->
         <div id="addModal" class="hidden fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full">
@@ -189,7 +193,7 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <form id="addCropForm" onsubmit="addCrop(event)" class="space-y-6">
+                <form id="addCropForm" onsubmit="addCrop(event)" class="space-y-6" >
                     <div class="grid grid-cols-2 gap-6">
                         <div class="space-y-4">
                             <div>
@@ -354,7 +358,8 @@
         </div>
     </div>
 
-
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-oVrPjXOB4vcx4qRo6GuFFZYK4KP1uV5pEYH+YDO3R9IExy9v9/csg1Zn7Qo1e6iC" crossorigin="anonymous"></script>
     <script src="./js/main.js"></script>
     <script src="./js/cropPage.js"></script>
 </body>
