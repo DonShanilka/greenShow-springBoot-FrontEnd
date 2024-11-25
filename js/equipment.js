@@ -1,3 +1,73 @@
+initializeEquipment()
+
+function initializeEquipment() {
+    loadEquipmentTable();
+}
+
+function loadEquipmentTable() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/equipment",
+        type: "GET",
+        success: (res) => {
+            addEquipmentToTable(res.data); 
+        },
+        error: (err) => {
+            console.error("Error loading vehicle data:", err);
+        }
+    });
+}
+
+function addEquipmentToTable(equipments) {
+    const equipmentTableBody = document.getElementById("equipmentTableBody");
+
+    // Clear any existing rows in the table
+    equipmentTableBody.innerHTML = "";
+
+    // Iterate through each vehicle and create table rows
+    equipments.forEach((equipment) => {
+        const row = document.createElement("tr");
+
+        // Construct the row's HTML
+        row.innerHTML = `
+            <td class="px-6 py-4">${equipment.equipmentId || 'N/A'}</td>
+            <td class="px-6 py-4">${equipment.availableCount || 'N/A'}</td>
+            <td class="px-6 py-4">${equipment.name || 'N/A'}</td>
+            <td class="px-6 py-4">${equipment.type || 'N/A'}</td>
+            <td class="px-6 py-4">${equipment.status || 'N/A'}</td>
+            <td class="px-6 py-4">${equipment.fieldCode || 'N/A'}</td>
+            <td class="px-6 py-4">${equipment.staffId || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment('${equipment.id}')">
+                    Edit
+                </button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteEquipment('${equipment.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        // Append the row to the table body
+        equipmentTableBody.appendChild(row);
+    });
+}
+
+// Example stub functions for Edit and Delete actions
+function editEquipment(equipmentId) {
+    alert(`Edit vehicle with ID: ${equipmentId}`);
+}
+
+function deleteEquipment(equipmentId) {
+    alert(`Delete vehicle with ID: ${equipmentId}`);
+}
+
+// Initialize the vehicle table on page load
+document.addEventListener("DOMContentLoaded", initializeVehical);
+
+
+
+
+
+
 // Store Equipment Data
 let equipmentData = [];
 

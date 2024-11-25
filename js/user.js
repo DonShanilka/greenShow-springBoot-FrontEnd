@@ -1,3 +1,11 @@
+
+
+
+
+
+
+
+
 // Toggle modals
 function toggleAddUserModal() {
     document.getElementById('addUserModal').classList.toggle('hidden');
