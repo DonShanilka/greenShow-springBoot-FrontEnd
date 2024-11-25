@@ -1,3 +1,88 @@
+function initializeVehical() {
+    loadVehicalTable();
+}
+
+function loadVehicalTable() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/vehicle",
+        type: "GET",
+        success: (res) => {
+            // Assuming the response contains a 'data' field with an array of vehicles
+            if (Array.isArray(res)) {
+                addVehicalToTable(res); // If the response is directly an array
+            } else if (res.data && Array.isArray(res.data)) {
+                addVehicalToTable(res.data); // If the response contains a 'data' property
+            } else {
+                console.error("Unexpected response format:", res);
+            }
+        },
+        error: (err) => {
+            console.error("Error loading vehicle data:", err);
+        }
+    });
+}
+
+function addVehicalToTable(vehicles) {
+    const vehicleTableBody = document.getElementById("vehicleTableBody");
+
+    // Clear any existing rows in the table
+    vehicleTableBody.innerHTML = "";
+
+    // Validate that vehicles is an array
+    if (!Array.isArray(vehicles)) {
+        console.error("Invalid vehicle data format:", vehicles);
+        return;
+    }
+
+    // Iterate through each vehicle and create table rows
+    vehicles.forEach((vehicle) => {
+        const row = document.createElement("tr");
+
+        // Construct the row's HTML
+        row.innerHTML = `
+            <td class="px-6 py-4">${vehicle.vehicleCode || 'N/A'}</td>
+            <td class="px-6 py-4">${vehicle.licensePlate || 'N/A'}</td>
+            <td class="px-6 py-4">${vehicle.category || 'N/A'}</td>
+            <td class="px-6 py-4">${vehicle.fuelType || 'N/A'}</td>
+            <td class="px-6 py-4">${vehicle.status || 'N/A'}</td>
+            <td class="px-6 py-4">${vehicle.remarks || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editVehicle('${vehicle.id}')">
+                    Edit
+                </button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteVehicle('${vehicle.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        // Append the row to the table body
+        vehicleTableBody.appendChild(row);
+    });
+}
+
+// Example stub functions for Edit and Delete actions
+function editVehicle(vehicleId) {
+    alert(`Edit vehicle with ID: ${vehicleId}`);
+}
+
+function deleteVehicle(vehicleId) {
+    alert(`Delete vehicle with ID: ${vehicleId}`);
+}
+
+// Initialize the vehicle table on page load
+document.addEventListener("DOMContentLoaded", initializeVehical);
+
+
+
+
+
+
+
+
+
+
+
 // Handle Add and Edit Vehicle Modal toggling
 function toggleAddVehicleModal() {
     document.getElementById('addVehicleModal').classList.toggle('hidden');

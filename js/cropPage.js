@@ -15,7 +15,6 @@ function loadCropTable(){
             console.error(res);
         }
     });
-
 }
 
 
