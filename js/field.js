@@ -4,49 +4,52 @@ function initializeField(){
     loadFieldTable()
 }
 
-function loadFieldTable(){
+function loadFieldTable() {
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "GET",
         success: (res) => {
-            addFieldToTable(res.data)
+            // Assuming the response contains a 'data' field with an array of fields
+            addFieldToTable(res);
         },
-        error: (res) => {
-            console.error(res);
+        error: (err) => {
+            console.error("Error loading field data:", err);
         }
     });
-
 }
 
-function addFieldToTable(field) {
-    // Get the table body element
+function addFieldToTable(fields) {
     const fieldTableBody = document.getElementById("fieldTableBody");
 
     // Clear any existing rows in the table
     fieldTableBody.innerHTML = "";
 
-    // Loop through each crop and create a table row
-    field.forEach(field => {
-        // Create a new table row element
+    // Loop through each field and create table rows
+    fields.forEach((field) => {
         const row = document.createElement("tr");
 
-        // Construct the row HTML
+        // Construct the row's HTML
         row.innerHTML = `
+            <td class="px-6 py-4">${field.fieldCode || 'N/A'}</td>
+            <td class="px-6 py-4">${field.fieldName || 'N/A'}</td>
+            <td class="px-6 py-4">${field.location || 'N/A'}</td>
+            <td class="px-6 py-4">${field.extentSize || 'N/A'}</td>
             <td class="px-6 py-4">
-                <img src="${field.cropImage || 'crop image'}" 
-                     alt="${field.fieldName || 'Crop Image'}" 
+                <img src="${field.image1 || 'https://via.placeholder.com/50'}" 
+                     alt="Field Image 1" 
                      class="w-12 h-12 rounded-md object-cover">
             </td>
-            <td class="px-6 py-4">${field.cropName || 'N/A'}</td>
-            <td class="px-6 py-4">${field.scientificName || 'N/A'}</td>
-            <td class="px-6 py-4">${field.category || 'N/A'}</td>
-            <td class="px-6 py-4">${field.season || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop('${crop.id}')">
-                    Edit
+                <img src="${field.image2 || 'https://via.placeholder.com/50'}" 
+                     alt="Field Image 2" 
+                     class="w-12 h-12 rounded-md object-cover">
+            </td>
+            <td class="px-6 py-4">
+                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField('${field.id}')">
+                    <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.id}')">
-                    Delete
+                <button class="text-red-500 hover:text-red-800 px-3 py-1 rounded-md " onclick="deleteField('${field.id}')">
+                    <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
         `;
@@ -55,6 +58,16 @@ function addFieldToTable(field) {
         fieldTableBody.appendChild(row);
     });
 }
+
+// Example stub functions for Edit and Delete
+function editField(fieldId) {
+    alert(`Edit field with ID: ${fieldId}`);
+}
+
+function deleteField(fieldId) {
+    alert(`Delete field with ID: ${fieldId}`);
+}
+
 
 
 

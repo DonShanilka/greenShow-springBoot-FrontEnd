@@ -1,3 +1,100 @@
+function initializeStaff() {
+    loadStaffTable();
+}
+
+function loadStaffTable() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/staff",
+        type: "GET",
+        success: (res) => {
+            // Assuming the response is an array or contains a 'data' field with an array of staff
+            if (Array.isArray(res)) {
+                addStaffToTable(res); // If the response is directly an array
+            } else if (res.data && Array.isArray(res.data)) {
+                addStaffToTable(res.data); // If the response contains a 'data' property
+            } else {
+                console.error("Unexpected response format:", res);
+            }
+        },
+        error: (err) => {
+            console.error("Error loading staff data:", err);
+        }
+    });
+}
+
+function addStaffToTable(staffList) {
+    const staffTableBody = document.getElementById("staffTableBody");
+
+    // Clear any existing rows in the table
+    staffTableBody.innerHTML = "";
+
+    // Validate that staffList is an array
+    if (!Array.isArray(staffList)) {
+        console.error("Invalid staff data format:", staffList);
+        return;
+    }
+
+    // Iterate through each staff member and create table rows
+    staffList.forEach((staff) => {
+        const row = document.createElement("tr");
+
+        // Construct the row's HTML
+        row.innerHTML = `
+            <td class="px-6 py-4">${staff.id || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.firstName || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.lastName || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.designation || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.gender || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.joinedDate || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.dob || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.addressLine1 || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.addressLine2 || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.addressLine3 || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.addressLine4 || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.addressLine5 || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.contactNo || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.email || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.role || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editStaff('${staff.id}')">
+                    Edit
+                </button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteStaff('${staff.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        // Append the row to the table body
+        staffTableBody.appendChild(row);
+    });
+}
+
+// Example stub functions for Edit and Delete actions
+function editStaff(staffId) {
+    alert(`Edit staff with ID: ${staffId}`);
+}
+
+function deleteStaff(staffId) {
+    alert(`Delete staff with ID: ${staffId}`);
+}
+
+// Initialize the staff table on page load
+document.addEventListener("DOMContentLoaded", initializeStaff);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // This array will store all the staff data
 let staffData = [];
@@ -103,40 +200,6 @@ function editStaff(id) {
 document.addEventListener('DOMContentLoaded', () => {
     // Sample data to test the functionality
     staffData = [
-        {
-            id: 1,
-            firstName: 'John',
-            lastName: 'Doe',
-            designation: 'Manager',
-            gender: 'Male',
-            joinedDate: '2022-01-01',
-            dob: '1985-05-15',
-            contactNo: '123-456-7890',
-            email: 'john.doe@example.com',
-            role: 'Manager',
-            addressLine1: '123 Main St',
-            addressLine2: 'Apt 101',
-            addressLine3: 'City Center',
-            addressLine4: 'New York',
-            addressLine5: 'NY 10001',
-        },
-        {
-            id: 2,
-            firstName: 'Jane',
-            lastName: 'Smith',
-            designation: 'Developer',
-            gender: 'Female',
-            joinedDate: '2023-02-20',
-            dob: '1990-07-23',
-            contactNo: '234-567-8901',
-            email: 'jane.smith@example.com',
-            role: 'Developer',
-            addressLine1: '456 Oak St',
-            addressLine2: 'Suite 5B',
-            addressLine3: 'Brooklyn',
-            addressLine4: 'New York',
-            addressLine5: 'NY 11201',
-        }
     ];
 
     // Render the initial table
