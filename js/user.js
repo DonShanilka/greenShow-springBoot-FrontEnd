@@ -1,4 +1,68 @@
+// Initialize the user table
+function initializeUser() {
+    loadUserTable();
+}
 
+// Load user data from the API
+function loadUserTable() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/user",  // Adjust URL if necessary
+        type: "GET",
+        success: (res) => {
+            // Check if 'data' field is available in the response
+            if (res.data && Array.isArray(res.data)) {
+                addUserToTable(res.data); // Call the function to populate the table
+            } else {
+                console.error("Unexpected response format:", res);
+            }
+        },
+        error: (err) => {
+            console.error("Error loading user data:", err);
+        }
+    });
+}
+
+// Function to populate the user table with data
+function addUserToTable(users) {
+    const userTableBody = document.getElementById("userTableBody");
+
+    // Clear any existing rows in the table
+    userTableBody.innerHTML = "";
+
+    // Iterate through the user data and create table rows
+    users.forEach((user) => {
+        const row = document.createElement("tr");
+
+        // Create and add table row data
+        row.innerHTML = `
+            <td class="px-6 py-4">${user.email || 'N/A'}</td>
+            <td class="px-6 py-4">${user.role || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editUser('${user.id}')">
+                    Edit
+                </button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteUser('${user.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        // Append the row to the table body
+        userTableBody.appendChild(row);
+    });
+}
+
+// Example stub functions for Edit and Delete actions
+function editUser(userId) {
+    alert(`Edit user with ID: ${userId}`);
+}
+
+function deleteUser(userId) {
+    alert(`Delete user with ID: ${userId}`);
+}
+
+// Initialize the user table on page load
+document.addEventListener("DOMContentLoaded", initializeUser);
 
 
 
