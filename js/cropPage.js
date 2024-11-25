@@ -96,45 +96,52 @@ function previewImage(input, previewId) {
 function addCrop(event) {
     event.preventDefault();
     const form = document.getElementById("addCropForm");
-    const cropTableBody = document.getElementById("cropTableBody");
 
-    // Extract form data
-    const cropImage = document.getElementById("cropImage").files[0]?.name || "No Image";
+    // Create a FormData object to handle file uploads and other form data
+    const formData = new FormData(form); // Automatically includes all form fields and files
+
+    // If you want to manually append the fields in case needed
+    const cropImage = document.getElementById("cropImage").files[0];
     const cropName = form.cropName.value;
     const scientificName = form.scientificName.value;
     const category = form.category.value;
     const season = form.season.value;
 
-    // Create table row
-    const newRow = `
-    <tr>
-        <td class="px-6 py-4">
-            <img src="#" alt="${cropImage}" class="w-12 h-12 rounded object-cover" />
-        </td>
-        <td class="px-6 py-4">${cropName}</td>
-        <td class="px-6 py-4">${scientificName}</td>
-        <td class="px-6 py-4">${category}</td>
-        <td class="px-6 py-4">${season}</td>
-        <td class="px-6 py-4 flex gap-2">
-            <button onclick="editCrop(this)" 
-                class="text-blue-500 hover:text-blue-600">
-                <i class="fas fa-edit text-lg"></i>
-            </button>
-            <button onclick="deleteCrop(this)" 
-                class="text-red-500 hover:text-red-600">
-                <i class="fas fa-trash text-lg"></i>    
-            </button>
-        </td>
-    </tr>
-`;
+    // Manually append fields (optional if you want to handle files and text fields separately)
+    formData.append("cropName", cropName);
+    formData.append("scientificName", scientificName);
+    formData.append("category", category);
+    formData.append("season", season);
+    
+    if (cropImage) {
+        formData.append("cropImage", cropImage);  // Append the file for upload
+    }
 
-document.getElementById('cropTableBody').innerHTML += newRow;
-
+    // Send the FormData object via AJAX
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/crops",
+        type: "POST",
+        data: formData,
+        processData: false,  // Don't process the data (important for file upload)
+        contentType: false,  // Don't set content type as jQuery will set it to multipart/form-data automatically
+        success: (res) => {
+            alert("Crop saved successfully!");
+        },
+        error: (err) => {
+            console.error("Error saving crop:", err);
+        }
+    });
 
     // Close modal and reset form
     toggleAddModal();
     form.reset();
 }
+
+
+
+
+
+
 
 // Edit Crop
 function editCrop(button) {
