@@ -40,18 +40,19 @@ function addVehicalToTable(vehicles) {
 
         // Construct the row's HTML
         row.innerHTML = `
-            <td class="px-6 py-4">${vehicle.vehicleCode || 'N/A'}</td>
-            <td class="px-6 py-4">${vehicle.licensePlate || 'N/A'}</td>
-            <td class="px-6 py-4">${vehicle.category || 'N/A'}</td>
-            <td class="px-6 py-4">${vehicle.fuelType || 'N/A'}</td>
-            <td class="px-6 py-4">${vehicle.status || 'N/A'}</td>
-            <td class="px-6 py-4">${vehicle.remarks || 'N/A'}</td>
-            <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editVehicle('${vehicle.id}')">
-                    Edit
+            <td class="px-6 text-center py-4">${vehicle.vehicleCode || 'N/A'}</td>
+            <td class="px-6 text-center py-4">${vehicle.licensePlate || 'N/A'}</td>
+            <td class="px-6 text-center py-4">${vehicle.category || 'N/A'}</td>
+            <td class="px-6 text-center py-4">${vehicle.fuelType || 'N/A'}</td>
+            <td class="px-6 text-center py-4">${vehicle.status || 'N/A'}</td>
+            <td class="px-6 text-center py-4">${vehicle.remarks || 'N/A'}</td>
+            <td class="px-6 text-center py-4">${vehicle.staffId || 'N/A'}</td>
+            <td class="px-6 text-center py-4">
+                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="editVehicle('${vehicle.id}')">
+                <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteVehicle('${vehicle.id}')">
-                    Delete
+                <button class="text-red-500 text-white px-3 py-1 rounded-md hover:text-red-700" onclick="deleteVehicle('${vehicle.id}')">
+                <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
         `;
@@ -92,20 +93,60 @@ function toggleEditVehicleModal() {
     document.getElementById('editVehicleModal').classList.toggle('hidden');
 }
 
+
+
 // Add new vehicle
 function addVehicle(event) {
     event.preventDefault();
-    const form = event.target;
-    const newVehicle = {
-        vehicleCode: form.vehicleCode.value,
-        licensePlate: form.licensePlate.value,
-        category: form.category.value,
-        fuelType: form.fuelType.value,
-        status: form.status.value,
-        remarks: form.remarks.value,
-    };
-    vehicleData.push(newVehicle);
-    updateVehicleTable();
+
+    const form = document.getElementById("addVehicleForm");
+
+    const licensePlate = form.licensePlate.value;
+    const category = form.category.value;
+    const fuelType = form.fuelType.value;
+    const status = form.status.value;
+    const remarks = form.remarks.value;
+    const staffId = "S001";
+    // form.staffId.value
+
+    // const formData = new FormData(form);
+
+    // formData.append("licensePlate", licensePlate);
+    // formData.append("category", category);
+    // formData.append("fuelType", fuelType);
+    // formData.append("status", status);
+    // formData.append("remarks", remarks);
+    // formData.append("staffId", staffId); 
+
+    let vehical = {
+        licensePlate,
+        category,
+        fuelType,
+        status,
+        remarks,
+        staffId
+    }
+
+    let jsonVehical = JSON.stringify(vehical)
+
+    // Send the FormData object via AJAX
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/vehicle",
+        type: "POST",
+        data: jsonVehical,
+        headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+           alert("Save Vehical")
+        },
+        error: (res) => {
+            console.error(res);
+            
+        }
+    });
+
     form.reset();
     toggleAddVehicleModal();
 }

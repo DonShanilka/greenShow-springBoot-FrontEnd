@@ -43,10 +43,10 @@ function addCropToTable(crops) {
             <td class="px-6 py-4">${crop.season || 'N/A'}</td>
             <td class="px-6 py-4">
                 <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop('${crop.id}')">
-                    Edit
+                <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.id}')">
-                    Delete
+                <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
         `;
