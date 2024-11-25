@@ -56,15 +56,6 @@ function addCropToTable(crops) {
     });
 }
 
-// Example stub functions for Edit and Delete
-function editCrop(cropId) {
-    alert(`Edit crop with ID: ${cropId}`);
-}
-
-function deleteCrop(cropId) {
-    alert(`Delete crop with ID: ${cropId}`);
-}
-
 
 // Add Modal Toggle
 function toggleAddModal() {

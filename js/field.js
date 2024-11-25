@@ -108,34 +108,43 @@ function addField(event) {
     const fieldTableBody = document.getElementById("fieldTableBody");
 
     // Extract form data
-    const fieldCode = form.fieldCode.value.trim();
+    // const fieldCode = form.fieldCode.value.trim();
     const fieldName = form.fieldName.value.trim();
     const location = form.location.value.trim();
     const extentSize = form.extentSize.value.trim();
     const fieldImage1 = form.fieldImage1.files[0]?.name || "No Image";
     const fieldImage2 = form.fieldImage2.files[0]?.name || "No Image";
 
-    // Create new row
-    const newRow = document.createElement("tr");
-    newRow.innerHTML = `
-        <td class="px-6 py-4">${fieldCode}</td>
-        <td class="px-6 py-4">${fieldName}</td>
-        <td class="px-6 py-4">${location}</td>
-        <td class="px-6 py-4">${extentSize}</td>
-        <td class="px-6 py-4">${fieldImage1}</td>
-        <td class="px-6 py-4">${fieldImage2}</td>
-        <td class="px-6 py-4 flex gap-2">
-            <button onclick="editField(this)" class="text-blue-500 hover:text-blue-600">
-                <i class="fas fa-edit text-lg"></i>
-            </button>
-            <button onclick="deleteField(this)" class="text-red-500 hover:text-red-600">
-                <i class="fas fa-trash text-lg"></i>
-            </button>
-        </td>
-    `;
+    const formData = new FormData(form);
 
-    // Append to table
-    fieldTableBody.appendChild(newRow);
+    formData.append("fieldName", fieldName);
+    formData.append("location", location);
+    formData.append("extentSize", extentSize);
+    // formData.append("season", season);
+    
+    if (fieldImage1) {
+        formData.append("fieldImage1", fieldImage1);  // Append the file for upload
+    }
+
+    if (fieldImage2) {
+        formData.append("fieldImage2", fieldImage2);  // Append the file for upload
+    }
+
+    // Send the FormData object via AJAX
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/field",
+        type: "POST",
+        data: formData,
+        processData: false,  // Don't process the data (important for file upload)
+        contentType: false,  // Don't set content type as jQuery will set it to multipart/form-data automatically
+        success: (res) => {
+            alert("Field saved successfully!");
+        },
+        error: (err) => {
+            console.error("Error saving crop:", err);
+        }
+    });
+
 
     // Reset form and close modal
     form.reset();
