@@ -109,38 +109,71 @@ function toggleAddStaffModal() {
 function saveStaff(event) {
     event.preventDefault(); // Prevent the form from refreshing the page
 
-    // Get form data
-    const form = event.target;
-    const newStaff = {
-        id: staffData.length + 1, // Automatically generate ID based on current staff count
-        firstName: form.firstName.value,
-        lastName: form.lastName.value,
-        designation: form.designation.value,
-        gender: form.gender.value,
-        joinedDate: form.joinedDate.value,
-        dob: form.dob.value,
-        contactNo: form.contactNo.value,
-        email: form.email.value,
-        role: form.role.value,
-        addressLine1: form.addressLine1.value,
-        addressLine2: form.addressLine2.value,
-        addressLine3: form.addressLine3.value,
-        addressLine4: form.addressLine4.value,
-        addressLine5: form.addressLine5.value
-    };
+    const form = document.getElementById("addStaffForm");
+
+    const firstName = form.firstName.value;
+    const lastName = form.lastName.value;
+    const designation = form.designation.value;
+    const gender = form.gender.value;
+    const joinedDate = form.joinedDate.value;
+    const dob = form.dob.value;
+    const addressLine1 = form.address1.value;
+    const addressLine2 = form.address2.value;
+    const addressLine3 = form.address3.value;
+    const addressLine4 = form.address4.value;
+    const addressLine5 = form.address5.value;
+    const contactNo = form.contactNo.value;
+    const email = form.email.value;
+    const role = document.getElementById("role").value;
+
+    let staff = {
+        firstName,
+        lastName,
+        designation,
+        gender,
+        joinedDate,
+        dob,
+        addressLine1,
+        addressLine2,
+        addressLine3,
+        addressLine4,
+        addressLine5,
+        contactNo,
+        email,
+        role
+    }
+
+    let jsonStaff = JSON.stringify(staff)
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/staff",
+        type: "POST",
+        data: jsonStaff,
+        headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+           alert("Save Vehical")
+        },
+        error: (res) => {
+            console.error(res);
+            
+        }
+    });
+
 
     // Add the new staff to the staffData array
     staffData.push(newStaff);
-
     // Update the table with the new staff data
     updateStaffTable();
-
     // Reset the form fields
     form.reset();
-
     // Close the modal after saving
     toggleAddStaffModal();
 }
+
+
 
 // Function to render the staff data in the table
 function updateStaffTable() {

@@ -151,6 +151,7 @@ function addVehicle(event) {
     toggleAddVehicleModal();
 }
 
+
 // Update vehicle information
 function updateVehicle(event) {
     event.preventDefault();
