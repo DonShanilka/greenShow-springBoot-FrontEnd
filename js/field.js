@@ -1,3 +1,80 @@
+initializeField()
+
+function initializeField(){
+    loadFieldTable()
+}
+
+function loadFieldTable(){
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/field",
+        type: "GET",
+        success: (res) => {
+            addFieldToTable(res.data)
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
+
+}
+
+function addFieldToTable(field) {
+    // Get the table body element
+    const fieldTableBody = document.getElementById("fieldTableBody");
+
+    // Clear any existing rows in the table
+    fieldTableBody.innerHTML = "";
+
+    // Loop through each crop and create a table row
+    field.forEach(field => {
+        // Create a new table row element
+        const row = document.createElement("tr");
+
+        // Construct the row HTML
+        row.innerHTML = `
+            <td class="px-6 py-4">
+                <img src="${field.cropImage || 'crop image'}" 
+                     alt="${field.fieldName || 'Crop Image'}" 
+                     class="w-12 h-12 rounded-md object-cover">
+            </td>
+            <td class="px-6 py-4">${field.cropName || 'N/A'}</td>
+            <td class="px-6 py-4">${field.scientificName || 'N/A'}</td>
+            <td class="px-6 py-4">${field.category || 'N/A'}</td>
+            <td class="px-6 py-4">${field.season || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop('${crop.id}')">
+                    Edit
+                </button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        // Append the row to the table body
+        fieldTableBody.appendChild(row);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Toggle Add Modal
 function ftoggleAddModal() {
     const addModal = document.getElementById("faddModal");

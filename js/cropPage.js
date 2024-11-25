@@ -1,3 +1,72 @@
+initializeCrop()
+
+function initializeCrop(){
+    loadCropTable()
+}
+
+function loadCropTable(){
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/crops",
+        type: "GET",
+        success: (res) => {
+            addCropToTable(res.data)
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
+
+}
+
+
+function addCropToTable(crops) {
+    // Get the table body element
+    const cropTableBody = document.getElementById("cropTableBody");
+
+    // Clear any existing rows in the table
+    cropTableBody.innerHTML = "";
+
+    // Loop through each crop and create a table row
+    crops.forEach(crop => {
+        // Create a new table row element
+        const row = document.createElement("tr");
+
+        // Construct the row HTML
+        row.innerHTML = `
+            <td class="px-6 py-4">
+                <img src="${crop.cropImage || 'crop image'}" 
+                     alt="${crop.cropName || 'Crop Image'}" 
+                     class="w-12 h-12 rounded-md object-cover">
+            </td>
+            <td class="px-6 py-4">${crop.cropName || 'N/A'}</td>
+            <td class="px-6 py-4">${crop.scientificName || 'N/A'}</td>
+            <td class="px-6 py-4">${crop.category || 'N/A'}</td>
+            <td class="px-6 py-4">${crop.season || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop('${crop.id}')">
+                    Edit
+                </button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.id}')">
+                    Delete
+                </button>
+            </td>
+        `;
+
+        // Append the row to the table body
+        cropTableBody.appendChild(row);
+    });
+}
+
+// Example stub functions for Edit and Delete
+function editCrop(cropId) {
+    alert(`Edit crop with ID: ${cropId}`);
+}
+
+function deleteCrop(cropId) {
+    alert(`Delete crop with ID: ${cropId}`);
+}
+
+
 // Add Modal Toggle
 function toggleAddModal() {
     const addModal = document.getElementById("addModal");
