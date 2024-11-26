@@ -162,9 +162,6 @@ function saveStaff(event) {
         }
     });
 
-
-    // Add the new staff to the staffData array
-    staffData.push(newStaff);
     // Update the table with the new staff data
     updateStaffTable();
     // Reset the form fields

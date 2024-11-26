@@ -1,5 +1,6 @@
 function initializeVehical() {
     loadVehicalTable();
+    loadStaffOnVehicle();
 }
 
 function loadVehicalTable() {
@@ -62,17 +63,42 @@ function addVehicalToTable(vehicles) {
     });
 }
 
-// Example stub functions for Edit and Delete actions
-function editVehicle(vehicleId) {
-    alert(`Edit vehicle with ID: ${vehicleId}`);
+function loadStaffOnVehicle() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/staff",
+        type: "GET",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log(res); // Inspect the response to confirm its structure
+            let staffArray = [];
+            if (Array.isArray(res)) {
+                staffArray = res;
+            } else if (res.data && Array.isArray(res.data)) {
+                staffArray = res.data;
+            } else {
+                console.error("Unexpected response format", res);
+                return;
+            }
+
+            const staffIdSelect = document.getElementById('staffIdOnVehicle');
+            $('#staffIdOnVehicle').empty();
+            $('#staffIdOnVehicle').append('<option class="text-blue-500" selected>Select Staff</option>');
+
+            staffArray.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.id; // Staff ID as the option value
+                option.textContent = staff.name; // Staff name as the displayed text
+                staffIdSelect.appendChild(option);
+            });
+        },
+        error: (res) => {
+            console.error("Error fetching staff:", res);
+        }
+    });
 }
 
-function deleteVehicle(vehicleId) {
-    alert(`Delete vehicle with ID: ${vehicleId}`);
-}
-
-// Initialize the vehicle table on page load
-document.addEventListener("DOMContentLoaded", initializeVehical);
 
 
 
@@ -106,7 +132,7 @@ function addVehicle(event) {
     const fuelType = form.fuelType.value;
     const status = form.status.value;
     const remarks = form.remarks.value;
-    const staffId = "S001";
+    const staffId = form.staffIdOnVehicle.value;
     // form.staffId.value
 
     // const formData = new FormData(form);
