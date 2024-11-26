@@ -166,6 +166,7 @@ function addVehicle(event) {
         },
         success: (res) => {
            alert("Save Vehical")
+           loadVehicalTable();
         },
         error: (res) => {
             console.error(res);

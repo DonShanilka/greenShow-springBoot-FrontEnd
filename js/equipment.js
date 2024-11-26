@@ -2,6 +2,8 @@ initializeEquipment()
 
 function initializeEquipment() {
     loadEquipmentTable();
+    loadStaffOnEquipment();
+    loadFieldOnEquipment()
 }
 
 function loadEquipmentTable() {
@@ -51,25 +53,90 @@ function addEquipmentToTable(equipments) {
     });
 }
 
-// Example stub functions for Edit and Delete actions
-function editEquipment(equipmentId) {
-    alert(`Edit vehicle with ID: ${equipmentId}`);
-}
-
-function deleteEquipment(equipmentId) {
-    alert(`Delete vehicle with ID: ${equipmentId}`);
-}
 
 // Initialize the vehicle table on page load
 document.addEventListener("DOMContentLoaded", initializeVehical);
 
 
+// Load Staff Id
+function loadStaffOnEquipment() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/staff",
+        type: "GET",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log(res); // Inspect the response to confirm its structure
+            let staffArray = [];
+            if (Array.isArray(res)) {
+                staffArray = res;
+            } else if (res.data && Array.isArray(res.data)) {
+                staffArray = res.data;
+            } else {
+                console.error("Unexpected response format", res);
+                return;
+            }
+
+            const staffIdSelect = document.getElementById('staffIdOnEquipment');
+            $('#staffIdOnEquipment').empty();
+            $('#staffIdOnEquipment').append('<option class="text-blue-500" selected>Select Staff</option>');
+
+            staffArray.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.id; // Staff ID as the option value
+                option.textContent = staff.name; // Staff name as the displayed text
+                staffIdSelect.appendChild(option);
+            });
+        },
+        error: (res) => {
+            console.error("Error fetching staff:", res);
+        }
+    });
+}
+
+// Load Field Id
+function loadFieldOnEquipment() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/field",
+        type: "GET",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log(res); // Inspect the response to confirm its structure
+            let fieldArray = [];
+            if (Array.isArray(res)) {
+                fieldArray = res;
+            } else if (res.data && Array.isArray(res.data)) {
+                fieldArray = res.data;
+            } else {
+                console.error("Unexpected response format", res);
+                return;
+            }
+
+            const fieldIdSelect = document.getElementById('fieldIdOnEquipment');
+            $('#fieldIdOnEquipment').empty();
+            $('#fieldIdOnEquipment').append('<option class="text-blue-500" selected>Select Field Id</option>');
+
+            fieldArray.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.id; // Staff ID as the option value
+                option.textContent = field.name; // Staff name as the displayed text
+                fieldIdSelect.appendChild(option);
+            });
+        },
+        error: (res) => {
+            console.error("Error fetching staff:", res);
+        }
+    });
+}
 
 
 
 
-// Store Equipment Data
-let equipmentData = [];
+
+
 
 // Toggle Add Equipment Modal
 function toggleAddEquipmentModal() {
@@ -84,15 +151,8 @@ function toggleEditEquipmentModal() {
 // Add New Equipment
 function addEquipment(event) {
     event.preventDefault(); // Prevent form submission
-    const form = event.target;
+    
 
-    const newEquipment = {
-        equipmentId: form.equipmentId.value.trim(),
-        name: form.name.value.trim(),
-        type: form.type.value.trim(),
-        availableCount: parseInt(form.availableCount.value, 10),
-        status: form.status.value.trim(),
-    };
 
     equipmentData.push(newEquipment);
     updateEquipmentTable();
