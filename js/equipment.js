@@ -114,14 +114,14 @@ function loadFieldOnEquipment() {
                 console.error("Unexpected response format", res);
                 return;
             }
-
+            console.log(fieldArray)
             const fieldIdSelect = document.getElementById('fieldIdOnEquipment');
             $('#fieldIdOnEquipment').empty();
             $('#fieldIdOnEquipment').append('<option class="text-blue-500" selected>Select Field Id</option>');
 
             fieldArray.forEach(field => {
                 const option = document.createElement('option');
-                option.value = field.id; // Staff ID as the option value
+                option.value = field.fieldCode; // Staff ID as the option value
                 option.textContent = field.name; // Staff name as the displayed text
                 fieldIdSelect.appendChild(option);
             });
@@ -148,17 +148,61 @@ function toggleEditEquipmentModal() {
     document.getElementById("editEquipmentModal").classList.toggle("hidden");
 }
 
+
 // Add New Equipment
 function addEquipment(event) {
     event.preventDefault(); // Prevent form submission
-    
 
+    const form = document.getElementById("addEquipmentForm");
 
-    equipmentData.push(newEquipment);
-    updateEquipmentTable();
+    // Create a FormData object to send multipart data
+    const formData = new FormData(form);
+
+    const availableCount = form.availableCount.value;
+    const name = form.name.value;
+    const type = form.type.value;
+    const status = form.status.value;
+    const fieldIdOnEquipment = form.fieldIdOnEquipment.value;
+    const staffIdOnEquipment = form.staffIdOnEquipment.value;
+    // document.getElementById("fieldIdOnEquipment").value
+    // document.getElementById("staffIdOnEquipment").value
+
+    // Manually append fields (optional if you want to handle files and text fields separately)
+    formData.append("availableCount", availableCount);
+    formData.append("name", name);
+    formData.append("type", type);
+    formData.append("status", status);
+    formData.append("fieldIdOnEquipment", fieldIdOnEquipment);
+    formData.append("staffIdOnEquipment", staffIdOnEquipment);
+
+    console.log(formData);
+    console.log(availableCount,name,type,status,fieldIdOnEquipment,staffIdOnEquipment)
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/equipment",
+        type: "POST",
+        data: formData,
+        processData: false, // Prevent jQuery from processing data
+        contentType: false, // Let the browser set the correct boundary
+        success: (res) => {
+            alert("Equipment saved successfully!");
+            loadEquipmentTable(); // Reload the table
+            console.log("Response:", res);
+        },
+        error: (res) => {
+            console.error("Error saving equipment:", res);
+        }
+    });
+
+    // Reset the form and close the modal
     form.reset();
     toggleAddEquipmentModal();
 }
+
+
+
+
+
 
 // Edit Existing Equipment
 function editEquipment(equipmentId) {
