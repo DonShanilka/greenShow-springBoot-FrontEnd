@@ -70,15 +70,6 @@ function addStaffToTable(staffList) {
     });
 }
 
-// Example stub functions for Edit and Delete actions
-function editStaff(staffId) {
-    alert(`Edit staff with ID: ${staffId}`);
-}
-
-function deleteStaff(staffId) {
-    alert(`Delete staff with ID: ${staffId}`);
-}
-
 // Initialize the staff table on page load
 document.addEventListener("DOMContentLoaded", initializeStaff);
 
@@ -206,13 +197,25 @@ function updateStaffTable() {
 }
 
 // Function to delete a staff member
-function deleteStaff(id) {
-    // Remove the staff member from the staffData array
-    staffData = staffData.filter(staff => staff.id !== id);
-
-    // Re-render the table
-    updateStaffTable();
+function deleteStaff(staffId) {
+    $.ajax({
+        url: `http://localhost:5050/greenshow/api/v1/staff/${staffId}`,
+        type: "DELETE",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Staff deleted successfully:", res);
+            loadStaffTable()
+        },
+        error: (err) => {
+            console.error("Error deleting crop:", err);
+        }
+    });
+    console.log(staffId);    
 }
+
+
 
 // Function to edit staff member (just a basic placeholder, you'll implement the actual edit logic)
 function editStaff(id) {

@@ -45,10 +45,10 @@ function addFieldToTable(fields) {
                      class="w-12 h-12 rounded-md object-cover">
             </td>
             <td class="px-6 py-4">
-                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField('${field.id}')">
+                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField('${field.fieldCode}')">
                     <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="text-red-500 hover:text-red-800 px-3 py-1 rounded-md " onclick="deleteField('${field.id}')">
+                <button class="text-red-500 hover:text-red-800 px-3 py-1 rounded-md " onclick="deleteField('${field.fieldCode}')">
                     <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
@@ -59,14 +59,6 @@ function addFieldToTable(fields) {
     });
 }
 
-// Example stub functions for Edit and Delete
-function editField(fieldId) {
-    alert(`Edit field with ID: ${fieldId}`);
-}
-
-function deleteField(fieldId) {
-    alert(`Delete field with ID: ${fieldId}`);
-}
 
 
 
@@ -190,7 +182,20 @@ function updateField(event) {
 }
 
 // Delete Field
-function deleteField(button) {
-    const row = button.parentElement.parentElement;
-    row.remove();
+function deleteField(fieldCode) {
+    $.ajax({
+        url: `http://localhost:5050/greenshow/api/v1/field/${fieldCode}`,
+        type: "DELETE",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Equipment deleted successfully:", res);
+            loadFieldTable()
+        },
+        error: (err) => {
+            console.error("Error deleting crop:", err);
+        }
+    });
+    console.log(fieldCode);
 }
