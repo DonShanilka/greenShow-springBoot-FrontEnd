@@ -45,7 +45,7 @@ function addFieldToTable(fields) {
                      class="w-12 h-12 rounded-md object-cover">
             </td>
             <td class="px-6 py-4">
-                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField('${field.fieldCode}')">
+                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField(this)">
                     <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="text-red-500 hover:text-red-800 px-3 py-1 rounded-md " onclick="deleteField('${field.fieldCode}')">

@@ -39,7 +39,7 @@ function addEquipmentToTable(equipments) {
             <td class="px-6 py-4">${equipment.fieldCode || 'N/A'}</td>
             <td class="px-6 py-4">${equipment.staffId || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment('${equipment.equipmentId}')">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment(this)">
                     Edit
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteEquipment('${equipment.equipmentId}')">
@@ -205,17 +205,17 @@ function addEquipment(event) {
 
 
 // Edit Existing Equipment
-function editEquipment(equipmentId) {
-    const equipment = equipmentData.find((item) => item.equipmentId === equipmentId);
-    if (!equipment) return;
+function editEquipment(button) {
+    const row = button.parentElement.parentElement;
+    const cells = row.getElementsByTagName("td");
 
+    // Populate edit form
     const form = document.getElementById("editEquipmentForm");
-
-    form.equipmentId.value = equipment.equipmentId;
-    form.name.value = equipment.name;
-    form.type.value = equipment.type;
-    form.availableCount.value = equipment.availableCount;
-    form.status.value = equipment.status;
+    form.editId.value = row.rowIndex; // Store row index for update reference
+    form.fieldCode.value = cells[0].textContent;
+    form.fieldName.value = cells[1].textContent;
+    form.location.value = cells[2].textContent;
+    form.extentSize.value = cells[3].textContent;
 
     toggleEditEquipmentModal();
 }
