@@ -38,10 +38,10 @@ function addLogToTable(log) {
             <td class="px-6 py-4">${log.logDetails || 'N/A'}</td>
             <td class="px-6 py-4"><img src="${log.image || 'crop image'}"class="w-12 h-12 rounded-md object-cover"></td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop('${log.id}')">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editLog('${log.logCode}')">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${log.id}')">
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteLog('${log.logCode}')">
                 <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
@@ -89,3 +89,21 @@ document.getElementById('logForm').addEventListener('submit', function(e) {
 });
 
 
+// Log Delete 
+function deleteLog(logCode) {
+    $.ajax({
+        url: `http://localhost:5050/greenshow/api/v1/log/${logCode}`,
+        type: "DELETE",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Log deleted successfully:", res);
+            loadLogTable()
+        },
+        error: (err) => {
+            console.error("Error deleting crop:", err);
+        }
+    });
+    console.log(logCode);  
+}

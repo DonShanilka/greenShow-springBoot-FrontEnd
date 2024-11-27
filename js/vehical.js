@@ -49,10 +49,10 @@ function addVehicalToTable(vehicles) {
             <td class="px-6 text-center py-4">${vehicle.remarks || 'N/A'}</td>
             <td class="px-6 text-center py-4">${vehicle.staffId || 'N/A'}</td>
             <td class="px-6 text-center py-4">
-                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="editVehicle('${vehicle.id}')">
+                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="editVehicle('${vehicle.vehicleCode}')">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="text-red-500 text-white px-3 py-1 rounded-md hover:text-red-700" onclick="deleteVehicle('${vehicle.id}')">
+                <button class="text-red-500 text-white px-3 py-1 rounded-md hover:text-red-700" onclick="deleteVehicle('${vehicle.vehicleCode}')">
                 <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
@@ -200,8 +200,21 @@ function updateVehicle(event) {
 
 // Delete vehicle
 function deleteVehicle(vehicleCode) {
-    vehicleData = vehicleData.filter(vehicle => vehicle.vehicleCode !== vehicleCode);
-    updateVehicleTable();
+    $.ajax({
+        url: `http://localhost:5050/greenshow/api/v1/vehicle/${vehicleCode}`,
+        type: "DELETE",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Vehical deleted successfully:", res);
+            loadVehicalTable()
+        },
+        error: (err) => {
+            console.error("Error deleting crop:", err);
+        }
+    });
+    console.log(vehicleCode);  
 }
 
 // Edit vehicle and populate the form for editing
