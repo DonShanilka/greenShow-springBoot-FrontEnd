@@ -38,7 +38,7 @@ function addLogToTable(log) {
             <td class="px-6 py-4">${log.logDetails || 'N/A'}</td>
             <td class="px-6 py-4"><img src="${log.image || 'crop image'}"class="w-12 h-12 rounded-md object-cover"></td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editLog('${log.logCode}')">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="updateLog(this)">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteLog('${log.logCode}')">
@@ -106,4 +106,16 @@ function deleteLog(logCode) {
         }
     });
     console.log(logCode);  
+}
+
+// update form modal 
+function toggleUpdateLogModal() {
+    const modal = document.getElementById('updateLogModal');
+    modal.classList.toggle('hidden');
+}
+
+
+// update log
+function updateLog(button) {
+    toggleUpdateLogModal()
 }
