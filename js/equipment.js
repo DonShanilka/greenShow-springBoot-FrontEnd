@@ -39,10 +39,10 @@ function addEquipmentToTable(equipments) {
             <td class="px-6 py-4">${equipment.fieldCode || 'N/A'}</td>
             <td class="px-6 py-4">${equipment.staffId || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment('${equipment.id}')">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment('${equipment.equipmentId}')">
                     Edit
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteEquipment('${equipment.id}')">
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteEquipment('${equipment.equipmentId}')">
                     Delete
                 </button>
             </td>
@@ -243,9 +243,25 @@ function updateEquipment(event) {
 
 // Delete Equipment
 function deleteEquipment(equipmentId) {
-    equipmentData = equipmentData.filter((item) => item.equipmentId !== equipmentId);
-    updateEquipmentTable();
+    $.ajax({
+        url: `http://localhost:5050/greenshow/api/v1/equipment/${equipmentId}`,
+        type: "DELETE",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Equipment deleted successfully:", res);
+            loadEquipmentTable()
+        },
+        error: (err) => {
+            console.error("Error deleting crop:", err);
+        }
+    });
+    console.log(equipmentId);
 }
+
+
+
 
 // Update Equipment Table
 function updateEquipmentTable() {
