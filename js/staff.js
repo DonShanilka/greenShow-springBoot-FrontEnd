@@ -96,6 +96,14 @@ function toggleAddStaffModal() {
     modal.classList.toggle('hidden'); // Show or hide the modal
 }
 
+// Function to toggle visibility of the Update Staff Modal
+function toggleUpdateStaffModal() {
+    const updateStaffModal = document.getElementById('updateStaffModal');
+    updateStaffModal.classList.toggle('hidden');
+}
+
+
+
 // Function to handle form submission and add new staff
 function saveStaff(event) {
     event.preventDefault(); // Prevent the form from refreshing the page
@@ -188,7 +196,7 @@ function updateStaffTable() {
             <td class="px-6 py-4 text-sm text-gray-800">${staff.email}</td>
             <td class="px-6 py-4 text-sm text-gray-800">${staff.role}</td>
             <td class="px-6 py-4 text-sm text-gray-800">
-                <button onclick="editStaff(${staff.id})" class="text-blue-600 hover:text-blue-800">Edit</button>
+                <button onclick="editStaff(this)" class="text-blue-600 hover:text-blue-800">Edit</button>
                 <button onclick="deleteStaff(${staff.id})" class="text-red-600 hover:text-red-800">Delete</button>
             </td>
         `;
@@ -219,6 +227,7 @@ function deleteStaff(staffId) {
 
 // Function to edit staff member (just a basic placeholder, you'll implement the actual edit logic)
 function editStaff(id) {
+    toggleUpdateStaffModal();
     // Find the staff member to edit
     const staff = staffData.find(staff => staff.id === id);
 

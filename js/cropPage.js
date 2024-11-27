@@ -139,10 +139,11 @@ function editCrop(button) {
 
     // Populate form fields
     editForm.editId.value = row.rowIndex;
-    editForm.editCropName.value = cells[1].innerText;
-    editForm.editScientificName.value = cells[2].innerText;
-    editForm.editCategory.value = cells[3].innerText;
-    editForm.editSeason.value = cells[4].innerText;
+    editForm.editCropImage.value = cells[1].innerText;
+    editForm.editCropName.value = cells[2].innerText;
+    editForm.editScientificName.value = cells[3].innerText;
+    editForm.editCategory.value = cells[4].innerText;
+    editForm.editSeason.value = cells[5].innerText;
 
     toggleEditModal();
 }
@@ -156,10 +157,10 @@ function updateCrop(event) {
     const row = cropTable.rows[rowIndex - 1]; // Adjust for header
 
     // Update table row
-    row.cells[1].innerText = form.editCropName.value;
-    row.cells[2].innerText = form.editScientificName.value;
-    row.cells[3].innerText = form.editCategory.value;
-    row.cells[4].innerText = form.editSeason.value;
+    // row.cells[1].innerText = form.editCropName.value;
+    // row.cells[2].innerText = form.editScientificName.value;
+    // row.cells[3].innerText = form.editCategory.value;
+    // row.cells[4].innerText = form.editSeason.value;
 
     // Close modal
     toggleEditModal();

@@ -161,7 +161,7 @@ function addEquipment(event) {
     const availableCount = form.availableCount.value;
     const name = form.name.value;
     const type = form.type.value;
-    const status = form.status.value;
+    const status = form.eqstatus.value;
     const fieldIdOnEquipment = form.fieldIdOnEquipment.value;
     const staffIdOnEquipment = form.staffIdOnEquipment.value;
     // document.getElementById("fieldIdOnEquipment").value
@@ -211,11 +211,11 @@ function editEquipment(button) {
 
     // Populate edit form
     const form = document.getElementById("editEquipmentForm");
-    form.editId.value = row.rowIndex; // Store row index for update reference
-    form.fieldCode.value = cells[0].textContent;
-    form.fieldName.value = cells[1].textContent;
-    form.location.value = cells[2].textContent;
-    form.extentSize.value = cells[3].textContent;
+    form.editequipmentId.value = row.rowIndex; // Store row index for update reference
+    // form.editname.value = cells[2].textContent;
+    // form.edittype.value = cells[3].textContent;
+    // form.editavailableCount.value = cells[1].textContent;
+    // form.editstatus.value = cells[4].textContent;
 
     toggleEditEquipmentModal();
 }

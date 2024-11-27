@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Add Crop Modal -->
                         <div id="addModal" class="hidden fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full">
                             <div class="relative top-20 mx-auto p-8 border w-[600px] shadow-2xl rounded-xl bg-white">
@@ -636,6 +636,105 @@
                 </form>
             </div>
         </div>
+        <!-- Staff Update form -->
+        <div id="updateStaffModal" class="hidden fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full">
+            <div class="relative top-20 mx-auto p-8 border w-[600px] shadow-2xl rounded-xl bg-white">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-semibold text-gray-900">Update Staff</h3>
+                    <button onclick="toggleUpdateStaffModal()" class="text-gray-400 hover:text-gray-600 text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="updateStaffForm" onsubmit="updateStaff(event)" class="space-y-6">
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- Form Fields: Replicated from Add Staff Modal -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            <input type="text" name="firstName" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <input type="text" name="lastName" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Designation</label>
+                            <input type="text" name="designation" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                            <select name="gender" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Joined Date</label>
+                            <input type="date" name="joinedDate" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                            <input type="date" name="dob" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                            <input type="tel" name="contactNo" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                            <select name="role" required id="role"
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                <option value="MANAGER">MANAGER</option>
+                                <option value="ADMINISTRATIVE">ADMINISTRATIVE</option>
+                                <option value="SCIENTIST">SCIENTIST</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address 1</label>
+                            <input type="address" name="address1" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address 2</label>
+                            <input type="address" name="address2" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address 3</label>
+                            <input type="address" name="address3" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address 4</label>
+                            <input type="address" name="address4" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address 5</label>
+                            <input type="address" name="address5" required
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                    </div>
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg">
+                            Update Staff
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -884,7 +983,11 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                            <input type="text" name="status" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <select name="eqstatus" required id="eqstatus"
+                                class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                <option value="Available">Available</option>
+                                <option value="Unavailable">Unavailable</option>
+                            </select>
                         </div>
                         <div class="form-group text-gray-800">
                             <label for="staffIdOnEquipment">Staff ID</label>
@@ -920,23 +1023,35 @@
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Equipment ID</label>
-                            <input type="text" name="equipmentId" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <input type="text" name="editequipmentId" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                            <input type="text" name="name" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <input type="text" name="editname" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                            <input type="text" name="type" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <input type="text" name="edittype" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Available Count</label>
-                            <input type="number" name="availableCount" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <input type="number" name="editavailableCount" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                            <input type="text" name="status" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <input type="text" name="editstatus" required class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+                        <div class="form-group text-gray-800">
+                            <label for="editstaffIdOnEquipment">Staff ID</label>
+                            <select id="editstaffIdOnEquipment" name="editstaffIdOnEquipment"
+                            class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-gray-800">
+                            </select>
+                        </div>
+                        <div class="form-group text-gray-800">
+                            <label for="editfieldIdOnEquipment">Field Id</label>
+                            <select id="editfieldIdOnEquipment" name="editfieldIdOnEquipment"
+                            class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 text-gray-800">
+                            </select>
                         </div>
                     </div>
                     <button type="submit"
