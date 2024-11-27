@@ -39,7 +39,7 @@ function addCropToTable(crops) {
             <td class="px-6 py-4">${crop.category || 'N/A'}</td>
             <td class="px-6 py-4">${crop.season || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop(this)">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="toggleEditModal();">
                     <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.cropCode}')">
@@ -126,42 +126,21 @@ function addCrop(event) {
 }
 
 
-
-
-
-
-
-// Edit Crop
-function editCrop(button) {
-    const row = button.closest("tr");
-    const cells = row.querySelectorAll("td");
+// Update Crop
+function updateCrop(button) {
+    // button.preventDefault();
     const editForm = document.getElementById("editCropForm");
+    const row = button.parentElement.parentElement;
+    const cells = row.getElementsByTagName("td");
 
-    // Populate form fields
     editForm.editId.value = row.rowIndex;
-    editForm.editCropImage.value = cells[1].innerText;
-    editForm.editCropName.value = cells[2].innerText;
-    editForm.editScientificName.value = cells[3].innerText;
+    const cId = cells[0].textContent;
+    editForm.editCropImage.value = cells[1].textContent;
+    editForm.editCropName.value = cells[2].textContent;
+    editForm.editScientificName.value = cells[3].textContent;
     editForm.editCategory.value = cells[4].innerText;
     editForm.editSeason.value = cells[5].innerText;
-
-    toggleEditModal();
-}
-
-// Update Crop
-function updateCrop(event) {
-    event.preventDefault();
-    const form = document.getElementById("editCropForm");
-    const rowIndex = form.editId.value;
-    const cropTable = document.getElementById("cropTableBody");
-    const row = cropTable.rows[rowIndex - 1]; // Adjust for header
-
-    // Update table row
-    // row.cells[1].innerText = form.editCropName.value;
-    // row.cells[2].innerText = form.editScientificName.value;
-    // row.cells[3].innerText = form.editCategory.value;
-    // row.cells[4].innerText = form.editSeason.value;
-
+    console.log(cId)
     // Close modal
     toggleEditModal();
 }

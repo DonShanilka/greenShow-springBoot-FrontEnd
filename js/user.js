@@ -38,7 +38,7 @@ function addUserToTable(users) {
             <td class="px-6 py-4">${user.email || 'N/A'}</td>
             <td class="px-6 py-4">${user.role || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editUser('${user.id}')">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="toggleEditUserModal()">
                     Edit
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteUser('${user.id}')">

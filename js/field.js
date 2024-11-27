@@ -45,7 +45,7 @@ function addFieldToTable(fields) {
                      class="w-12 h-12 rounded-md object-cover">
             </td>
             <td class="px-6 py-4">
-                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField(this)">
+                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="ftoggleEditModal()">
                     <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="text-red-500 hover:text-red-800 px-3 py-1 rounded-md " onclick="deleteField('${field.fieldCode}')">
@@ -144,20 +144,22 @@ function addField(event) {
 }
 
 // Edit Field
-function editField(button) {
-    const row = button.parentElement.parentElement;
-    const cells = row.getElementsByTagName("td");
+// function editField(event) {
+//     button.preventDefault();
+//     const row = button.parentElement.parentElement;
+//     const cells = row.getElementsByTagName("td");
 
-    // Populate edit form
-    const form = document.getElementById("editFieldForm");
-    form.editId.value = row.rowIndex; // Store row index for update reference
-    form.fieldCode.value = cells[0].textContent;
-    form.fieldName.value = cells[1].textContent;
-    form.location.value = cells[2].textContent;
-    form.extentSize.value = cells[3].textContent;
+//     // Populate edit form
+//     const form = document.getElementById("editFieldForm");
+//     form.editId.value = row.rowIndex; // Store row index for update reference
+//     form.fieldCode.value = cells[0].textContent;
+//     form.fieldName.value = cells[1].textContent;
+//     form.location.value = cells[2].textContent;
+//     form.extentSize.value = cells[3].textContent;
+//     console.log(form)
 
-    ftoggleEditModal();
-}
+//     
+// }
 
 // Update Field
 function updateField(event) {
@@ -168,14 +170,11 @@ function updateField(event) {
     const fieldTableBody = document.getElementById("fieldTableBody");
     const row = fieldTableBody.rows[rowIndex - 1]; // Rows are 0-indexed
 
-    // Update row cells
-    const cells = row.getElementsByTagName("td");
-    cells[0].textContent = form.fieldCode.value.trim();
-    cells[1].textContent = form.fieldName.value.trim();
-    cells[2].textContent = form.location.value.trim();
-    cells[3].textContent = form.extentSize.value.trim();
-    cells[4].textContent = form.fieldImage1.files[0]?.name || cells[4].textContent;
-    cells[5].textContent = form.fieldImage2.files[0]?.name || cells[5].textContent;
+    form.editId.value = row.rowIndex; // Store row index for update reference
+    form.fieldCode.value = cells[0].textContent;
+    form.fieldName.value = cells[1].textContent;
+    form.location.value = cells[2].textContent;
+    form.extentSize.value = cells[3].textContent;
 
     // Close modal
     ftoggleEditModal();

@@ -49,7 +49,7 @@ function addVehicalToTable(vehicles) {
             <td class="px-6 text-center py-4">${vehicle.remarks || 'N/A'}</td>
             <td class="px-6 text-center py-4">${vehicle.staffId || 'N/A'}</td>
             <td class="px-6 text-center py-4">
-                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="editVehicle(this)">
+                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="toggleEditVehicleModal()">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="text-red-500 text-white px-3 py-1 rounded-md hover:text-red-700" onclick="deleteVehicle('${vehicle.vehicleCode}')">
