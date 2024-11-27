@@ -32,11 +32,8 @@ function addCropToTable(crops) {
 
         // Construct the row HTML
         row.innerHTML = `
-            <td class="px-6 py-4">
-                <img src="${crop.cropImage || 'crop image'}" 
-                     alt="${crop.cropName || 'Crop Image'}" 
-                     class="w-12 h-12 rounded-md object-cover">
-            </td>
+        <td class="px-6 py-4">${crop.cropCode || 'N/A'}</td>
+            <td class="px-6 py-4"><img src="${crop.cropImage || 'crop image'}"class="w-12 h-12 rounded-md object-cover"></td>
             <td class="px-6 py-4">${crop.cropName || 'N/A'}</td>
             <td class="px-6 py-4">${crop.scientificName || 'N/A'}</td>
             <td class="px-6 py-4">${crop.category || 'N/A'}</td>
@@ -45,7 +42,7 @@ function addCropToTable(crops) {
                 <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop('${crop.id}')">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.id}')">
+                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.cropCode}')">
                 <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
@@ -169,7 +166,20 @@ function updateCrop(event) {
 }
 
 // Delete Crop
-function deleteCrop(button) {
-    const row = button.closest("tr");
-    row.remove();
+function deleteCrop(cropCode) {
+    $.ajax({
+        url: `http://localhost:5050/greenshow/api/v1/crops/${cropCode}`,
+        type: "DELETE",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Crop deleted successfully:", res);
+            loadCropTable()
+        },
+        error: (err) => {
+            console.error("Error deleting crop:", err);
+        }
+    });
+    console.log(cropCode);
 }
