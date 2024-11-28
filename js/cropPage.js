@@ -39,7 +39,7 @@ function addCropToTable(crops) {
             <td class="px-6 py-4">${crop.category || 'N/A'}</td>
             <td class="px-6 py-4">${crop.season || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="toggleEditModal();">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editCrop(this)">
                     <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteCrop('${crop.cropCode}')">
@@ -126,22 +126,38 @@ function addCrop(event) {
 }
 
 
-// Update Crop
-function updateCrop(button) {
-    // button.preventDefault();
-    const editForm = document.getElementById("editCropForm");
+let cropArray = [];
+const cId = null;
+// get Table Data in update form
+function editCrop(button) {
     const row = button.parentElement.parentElement;
-    const cells = row.getElementsByTagName("td");
+    const form = document.getElementById("editCropForm");
 
-    editForm.editId.value = row.rowIndex;
-    const cId = cells[0].textContent;
-    editForm.editCropImage.value = cells[1].textContent;
-    editForm.editCropName.value = cells[2].textContent;
-    editForm.editScientificName.value = cells[3].textContent;
-    editForm.editCategory.value = cells[4].innerText;
-    editForm.editSeason.value = cells[5].innerText;
+    // const cropId = row.cells[0].textContent;
+    form.editCropName.value = row.cells[2].textContent;
+    form.editScientificName.value = row.cells[3].textContent;
+    form.editCategory.value = row.cells[4].textContent;
+    form.editSeason.value = row.cells[5].textContent;
+    // cropArray = [cropId,scientificName,category,sesson];
+    // console.log(cropArray);
+
+    // let [editCropCode, cCropname, cScientificname, cCategory, cSeason] = cropArray;  
+
+    // cId = editCropCode;
+
+    // form.editCropName.value = row.cells[2].textContent; 
+    // form.editScientificName.value = cScientificname;
+    // form.editCategory.value = cCategory;
+    // form.editSeason.value = cSeason;
+    
+    toggleEditModal();
+}
+
+// Update Crop
+function updateCrop(event) {
+    event.preventDefault();
+    const form = document.getElementById("editCropForm");
     console.log(cId)
-    // Close modal
     toggleEditModal();
 }
 
