@@ -126,30 +126,21 @@ function addCrop(event) {
 }
 
 
-let cropArray = [];
-const cId = null;
+// let cropArray = [];
+let cId = null;
 // get Table Data in update form
 function editCrop(button) {
     const row = button.parentElement.parentElement;
     const form = document.getElementById("editCropForm");
 
-    // const cropId = row.cells[0].textContent;
+    let cropId = row.cells[0].textContent;
     form.editCropName.value = row.cells[2].textContent;
     form.editScientificName.value = row.cells[3].textContent;
     form.editCategory.value = row.cells[4].textContent;
     form.editSeason.value = row.cells[5].textContent;
-    // cropArray = [cropId,scientificName,category,sesson];
-    // console.log(cropArray);
-
-    // let [editCropCode, cCropname, cScientificname, cCategory, cSeason] = cropArray;  
-
-    // cId = editCropCode;
-
-    // form.editCropName.value = row.cells[2].textContent; 
-    // form.editScientificName.value = cScientificname;
-    // form.editCategory.value = cCategory;
-    // form.editSeason.value = cSeason;
     
+    cId = cropId;
+
     toggleEditModal();
 }
 
@@ -157,8 +148,43 @@ function editCrop(button) {
 function updateCrop(event) {
     event.preventDefault();
     const form = document.getElementById("editCropForm");
-    console.log(cId)
-    toggleEditModal();
+
+    const editCropName = document.getElementById('editCropName').value;
+    const editScientificName = document.getElementById('editScientificName').value;
+    const editCropImage = document.getElementById('editCropImage').files[0];
+    const editCategory = document.getElementById('editCategory').value;
+    const editSeason = document.getElementById('editSeason').value;
+
+    const formData = new FormData(form);
+
+    formData.append("cropName", editCropName);
+    formData.append("scientificName", editScientificName);
+    formData.append("category", editCategory);
+    formData.append("season", editSeason);
+    
+    if (editCropImage) {
+        formData.append("cropImage", editCropImage);  // Append the file for upload
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/crops/" + cId,
+        type: "PUT",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        data: formData,
+        processData: false,  // Don't process the data (important for file upload)
+        contentType: false,
+        success: (res) => {
+            console.log(res);
+            loadCropTable();
+            toggleEditModal();
+            console.log("Update Crops")
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
 }
 
 // Delete Crop
