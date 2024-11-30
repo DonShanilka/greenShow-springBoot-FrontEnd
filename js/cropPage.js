@@ -170,14 +170,14 @@ function updateCrop(event) {
         url: "http://localhost:5050/greenshow/api/v1/crops/" + cId,
         type: "PUT",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            "Authorization": "Bearer " + localStorage.getItem('token')
         },
         data: formData,
         processData: false,  // Don't process the data (important for file upload)
         contentType: false,
         success: (res) => {
             console.log(res);
-            loadCropTable();
+            loadCropTable()
             toggleEditModal();
             console.log("Update Crops")
         },

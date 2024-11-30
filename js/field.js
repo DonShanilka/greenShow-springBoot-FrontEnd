@@ -45,7 +45,7 @@ function addFieldToTable(fields) {
                      class="w-12 h-12 rounded-md object-cover">
             </td>
             <td class="px-6 py-4">
-                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="ftoggleEditModal()">
+                <button class="text-blue-500 hover:text-blue-800 px-3 py-1 rounded-md " onclick="editField(this)">
                     <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="text-red-500 hover:text-red-800 px-3 py-1 rounded-md " onclick="deleteField('${field.fieldCode}')">
@@ -58,26 +58,6 @@ function addFieldToTable(fields) {
         fieldTableBody.appendChild(row);
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Toggle Add Modal
@@ -143,41 +123,68 @@ function addField(event) {
     ftoggleAddModal();
 }
 
+
 // Edit Field
-// function editField(event) {
-//     button.preventDefault();
-//     const row = button.parentElement.parentElement;
-//     const cells = row.getElementsByTagName("td");
+let fId = null;
+function editField(button) {
+    const row = button.parentElement.parentElement;
+    const form = document.getElementById("editFieldForm");
 
-//     // Populate edit form
-//     const form = document.getElementById("editFieldForm");
-//     form.editId.value = row.rowIndex; // Store row index for update reference
-//     form.fieldCode.value = cells[0].textContent;
-//     form.fieldName.value = cells[1].textContent;
-//     form.location.value = cells[2].textContent;
-//     form.extentSize.value = cells[3].textContent;
-//     console.log(form)
+    let fieldCode = row.cells[0].textContent;
+    form.fieldName.value = row.cells[1].textContent;
+    form.location.value = row.cells[2].textContent;
+    form.extentSize.value = row.cells[3].textContent;
+    
+    fId = fieldCode;
 
-//     
-// }
+    ftoggleEditModal();
+}
 
 // Update Field
 function updateField(event) {
     event.preventDefault();
-
     const form = document.getElementById("editFieldForm");
-    const rowIndex = form.editId.value; // Get the stored row index
-    const fieldTableBody = document.getElementById("fieldTableBody");
-    const row = fieldTableBody.rows[rowIndex - 1]; // Rows are 0-indexed
+    
+    const editfieldName = document.getElementById('editfieldName').value;
+    const editlocation = document.getElementById('editlocation').value;
+    const editextentSize = document.getElementById('editextentSize').value;
+    const editfieldImage1 = document.getElementById('editfieldImage1').files[0];
+    const editfieldImage2 = document.getElementById('editfieldImage2').files[0];
 
-    form.editId.value = row.rowIndex; // Store row index for update reference
-    form.fieldCode.value = cells[0].textContent;
-    form.fieldName.value = cells[1].textContent;
-    form.location.value = cells[2].textContent;
-    form.extentSize.value = cells[3].textContent;
+    const formData = new FormData(form);
 
-    // Close modal
-    ftoggleEditModal();
+    formData.append("fieldCode", fId);
+    formData.append("fieldName", editfieldName);
+    formData.append("location", editlocation);
+    formData.append("extentSize", editextentSize);
+    
+    if (editfieldImage1) {
+        formData.append("fieldImage1", editfieldImage1);  // Append the file for upload
+    }
+
+    if (editfieldImage2) {
+        formData.append("fieldImage2", editfieldImage2);  // Append the file for upload
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/field",
+        type: "PUT",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        data: formData,
+        processData: false,  // Don't process the data (important for file upload)
+        contentType: false,
+        success: (res) => {
+            console.log(res);
+            loadFieldTable()
+            ftoggleEditModal();
+            console.log("Update Field")
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
 }
 
 // Delete Field
