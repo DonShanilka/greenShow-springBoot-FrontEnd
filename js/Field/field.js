@@ -125,7 +125,7 @@ function addField(event) {
 
 
 // Edit Field
-let fId = null;
+let fieldId = null;
 function editField(button) {
     const row = button.parentElement.parentElement;
     const form = document.getElementById("editFieldForm");
@@ -135,7 +135,7 @@ function editField(button) {
     form.location.value = row.cells[2].textContent;
     form.extentSize.value = row.cells[3].textContent;
     
-    fId = fieldCode;
+    fieldId = fieldCode;
 
     ftoggleEditModal();
 }
@@ -153,7 +153,7 @@ function updateField(event) {
 
     const formData = new FormData(form);
 
-    formData.append("fieldCode", fId);
+    formData.append("fieldCode", fieldId);
     formData.append("fieldName", editfieldName);
     formData.append("location", editlocation);
     formData.append("extentSize", editextentSize);

@@ -56,7 +56,7 @@ function addStaffToTable(staffList) {
             <td class="px-6 py-4">${staff.email || 'N/A'}</td>
             <td class="px-6 py-4">${staff.role || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="toggleUpdateStaffModal()">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editStaff(this)">
                     Edit
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteStaff('${staff.id}')">
@@ -72,23 +72,6 @@ function addStaffToTable(staffList) {
 
 // Initialize the staff table on page load
 document.addEventListener("DOMContentLoaded", initializeStaff);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// This array will store all the staff data
-let staffData = [];
 
 // Function to toggle visibility of the Add Staff Modal
 function toggleAddStaffModal() {
@@ -161,50 +144,46 @@ function saveStaff(event) {
         }
     });
 
-    // Update the table with the new staff data
-    updateStaffTable();
-    // Reset the form fields
     form.reset();
     // Close the modal after saving
     toggleAddStaffModal();
 }
 
 
+let staff_Code = null;
+function editStaff(button) {
+    const row = button.parentElement.parentElement;
+    const form = document.getElementById('updateStaffForm');
 
-// Function to render the staff data in the table
-function updateStaffTable() {
-    const tableBody = document.getElementById('staffTableBody');
-    tableBody.innerHTML = ''; // Clear the current table rows
+    let staffCode = row.cells[0].textContent;
+    form.firstName.value = row.cells[1].textContent;
+    form.lastName.value = row.cells[2].textContent;
+    form.designation.value = row.cells[3].textContent;
+    form.gender.value = row.cells[4].textContent;
+    form.joinedDate.value = row.cells[5].textContent;
+    form.dob.value = row.cells[6].textContent;
+    form.contactNo.value = row.cells[7].textContent;
+    form.email.value = row.cells[8].textContent;
+    form.role.valueOf = row.cells[9].textContent;
+    form.address1.value = row.cells[10].textContent;
+    form.address2.value = row.cells[11].textContent;
+    form.address3.value = row.cells[12].textContent;
+    form.address4.value = row.cells[13].textContent;
+    form.address5.value = row.cells[14].textContent;
 
-    // Loop through the staffData array and create a row for each staff member
-    staffData.forEach(staff => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.id}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.firstName}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.lastName}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.designation}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.gender}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.joinedDate}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.dob}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine1}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine2}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine3}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine4}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.addressLine5}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.contactNo}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.email}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${staff.role}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">
-                <button onclick="editStaff(this)" class="text-blue-600 hover:text-blue-800">Edit</button>
-                <button onclick="deleteStaff(${staff.id})" class="text-red-600 hover:text-red-800">Delete</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
+    staff_Code = staffCode;
+
+    toggleUpdateStaffModal();
 }
 
-// Function to delete a staff member
+
+function updateStaff(event) {
+    event.preventDefault();
+    console.log("Update Button")
+    
+}
+
+
 function deleteStaff(staffId) {
     $.ajax({
         url: `http://localhost:5050/greenshow/api/v1/staff/${staffId}`,
@@ -224,27 +203,4 @@ function deleteStaff(staffId) {
 }
 
 
-
-// Function to edit staff member (just a basic placeholder, you'll implement the actual edit logic)
-function editStaff(id) {
-    toggleUpdateStaffModal();
-    // Find the staff member to edit
-    const staff = staffData.find(staff => staff.id === id);
-
-    if (staff) {
-        // You can use the staff object to pre-fill the edit form
-        console.log('Editing staff:', staff);
-        // Ideally, you'd show an edit modal with the staff's current data pre-filled in the form fields
-    }
-}
-
-// Function to initialize the page with some sample data (optional, for testing purposes)
-document.addEventListener('DOMContentLoaded', () => {
-    // Sample data to test the functionality
-    staffData = [
-    ];
-
-    // Render the initial table
-    updateStaffTable();
-});
 
