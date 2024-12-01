@@ -150,7 +150,7 @@ function saveStaff(event) {
 }
 
 
-let staff_Code = null;
+let id = null;
 function editStaff(button) {
     const row = button.parentElement.parentElement;
     const form = document.getElementById('updateStaffForm');
@@ -162,16 +162,16 @@ function editStaff(button) {
     form.gender.value = row.cells[4].textContent;
     form.joinedDate.value = row.cells[5].textContent;
     form.dob.value = row.cells[6].textContent;
-    form.contactNo.value = row.cells[7].textContent;
-    form.email.value = row.cells[8].textContent;
-    form.role.valueOf = row.cells[9].textContent;
-    form.address1.value = row.cells[10].textContent;
-    form.address2.value = row.cells[11].textContent;
-    form.address3.value = row.cells[12].textContent;
-    form.address4.value = row.cells[13].textContent;
-    form.address5.value = row.cells[14].textContent;
+    form.address1.value = row.cells[7].textContent;
+    form.address2.value = row.cells[8].textContent;
+    form.address3.value = row.cells[9].textContent;
+    form.address4.value = row.cells[10].textContent;
+    form.address5.value = row.cells[11].textContent;
+    form.contactNo.value = row.cells[12].textContent;
+    form.email.value = row.cells[13].textContent;
+    form.role.valueOf = row.cells[14].textContent;
 
-    staff_Code = staffCode;
+    id = staffCode;
 
     toggleUpdateStaffModal();
 }
@@ -179,8 +179,58 @@ function editStaff(button) {
 
 function updateStaff(event) {
     event.preventDefault();
-    console.log("Update Button")
     
+    const firstName = document.getElementById('editfirstName').value;
+    const lastName = document.getElementById('editlastName').value;
+    const designation = document.getElementById('editdesignation').value;
+    const gender = document.getElementById('editgender').value;
+    const joinedDate = document.getElementById('editjoinedDate').value;
+    const dob = document.getElementById('editdob').value;
+    const contactNo = document.getElementById('editcontactNo').value;
+    const email = document.getElementById('editemail').value;
+    const role = document.getElementById('editrole').value;
+    const addressLine1 = document.getElementById('editaddress1').value;
+    const addressLine2 = document.getElementById('editaddress2').value;
+    const addressLine3 = document.getElementById('editaddress3').value;
+    const addressLine4 = document.getElementById('editaddress4').value;
+    const addressLine5 = document.getElementById('editaddress5').value;
+
+    const staffData = {
+        id,
+        firstName,
+        lastName,
+        designation,
+        gender,
+        joinedDate,
+        dob,
+        addressLine1,
+        addressLine2,
+        addressLine3,
+        addressLine4,
+        addressLine5,
+        contactNo,
+        email,
+        role
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/staff",
+        type: "PUT",
+        data: JSON.stringify(staffData),
+        contentType: "application/json",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Staff Update Success ",res);
+            initializeStaff();
+            toggleUpdateStaffModal();
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
+    console.log(id);
 }
 
 
