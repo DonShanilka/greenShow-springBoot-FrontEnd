@@ -159,11 +159,11 @@ function updateField(event) {
     formData.append("extentSize", editextentSize);
     
     if (editfieldImage1) {
-        formData.append("fieldImage1", editfieldImage1);  // Append the file for upload
+        formData.append("fieldImage1", editfieldImage1);  
     }
 
     if (editfieldImage2) {
-        formData.append("fieldImage2", editfieldImage2);  // Append the file for upload
+        formData.append("fieldImage2", editfieldImage2); 
     }
 
     $.ajax({
@@ -173,13 +173,13 @@ function updateField(event) {
             // "Authorization": "Bearer " + localStorage.getItem('token')
         },
         data: formData,
-        processData: false,  // Don't process the data (important for file upload)
+        processData: false, 
         contentType: false,
         success: (res) => {
             console.log(res);
-            loadFieldTable()
+            loadFieldTable();
             ftoggleEditModal();
-            console.log("Update Field")
+            console.log("Update Field");
         },
         error: (res) => {
             console.error(res);
@@ -197,7 +197,7 @@ function deleteField(fieldCode) {
         },
         success: (res) => {
             console.log("Equipment deleted successfully:", res);
-            loadFieldTable()
+            loadFieldTable();
         },
         error: (err) => {
             console.error("Error deleting crop:", err);
