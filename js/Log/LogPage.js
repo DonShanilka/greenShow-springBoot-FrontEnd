@@ -130,7 +130,40 @@ function editLog(button) {
 
 // update log
 function updateLog(event) {
-    
+    event.preventDefault();
+    const form = document.getElementById("editCropForm");
 
-    toggleUpdateLogModal()
+    const logDate = document.getElementById('updateLogDate').value;
+    const logDetails = document.getElementById('updateLogDetails').value;
+    const image = document.getElementById('updateLogImage').files[0];
+
+    const formData = new FormData(form);
+
+    formData.append("logCode", logCode);
+    formData.append("logDate", logDate);
+    formData.append("logDetails", logDetails);
+
+    if (image) {
+        formData.append("image", image);  // Append the file for upload
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/log",
+        type: "PUT",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        data: formData,
+        processData: false,  // Don't process the data (important for file upload)
+        contentType: false,
+        success: (res) => {
+            console.log(res);
+            loadLogTable();
+            toggleUpdateLogModal();
+            console.log("Update Log")
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
 }
