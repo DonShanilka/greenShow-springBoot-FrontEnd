@@ -49,7 +49,7 @@ function addVehicalToTable(vehicles) {
             <td class="px-6 text-center py-4">${vehicle.remarks || 'N/A'}</td>
             <td class="px-6 text-center py-4">${vehicle.staffId || 'N/A'}</td>
             <td class="px-6 text-center py-4">
-                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="toggleEditVehicleModal()">
+                <button class="text-blue-500 text-white px-3 py-1 rounded-md hover:text-blue-700" onclick="editVehicle(this)">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="text-red-500 text-white px-3 py-1 rounded-md hover:text-red-700" onclick="deleteVehicle('${vehicle.vehicleCode}')">
@@ -84,14 +84,18 @@ function loadStaffOnVehicle() {
             }
 
             const staffIdSelect = document.getElementById('staffIdOnVehicle');
+            const updateStaffIdOnVehicle = document.getElementById('updateStaffIdOnVehicle');
             $('#staffIdOnVehicle').empty();
+            $('#updateStaffIdOnVehicle').empty();
             $('#staffIdOnVehicle').append('<option class="text-blue-500" selected>Select Staff</option>');
+            $('#updateStaffIdOnVehicle').append('<option class="text-blue-500" selected>Select Staff</option>');
 
             staffArray.forEach(staff => {
                 const option = document.createElement('option');
                 option.value = staff.id; // Staff ID as the option value
                 option.textContent = staff.name; // Staff name as the displayed text
                 staffIdSelect.appendChild(option);
+                updateStaffIdOnVehicle.appendChild(option);
             });
         },
         error: (res) => {
@@ -99,16 +103,6 @@ function loadStaffOnVehicle() {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
 
 
 // Handle Add and Edit Vehicle Modal toggling
@@ -200,20 +194,60 @@ function deleteVehicle(vehicleCode) {
 }
 
 // Edit vehicle and populate the form for editing
-function editVehicle(vehicleCode) {
-    // const vehicle = vehicleData.find(v => v.vehicleCode === vehicleCode);
-    // const form = document.getElementById('editVehicleForm');
+let vehicleCode = null;
+function editVehicle(button) {
+    const row = button.parentElement.parentElement;;
+    const form = document.getElementById('editVehicleForm');
     
-    // // Populate the form fields with vehicle data
-    // form.vehicleCode.value = vehicle.vehicleCode;
-    // form.licensePlate.value = vehicle.licensePlate;
-    // form.category.value = vehicle.category;
-    // form.fuelType.value = vehicle.fuelType;
-    // form.status.value = vehicle.status;
-    // form.remarks.value = vehicle.remarks;
+    let vehical_Code = row.cells[0].textContent;
+    form.licensePlate.value = row.cells[1].textContent;
+    form.category.value = row.cells[2].textContent;
+    form.fuelType.value = row.cells[3].textContent;
+    form.status.value  = row.cells[4].textContent;
+    form.remarks.value  = row.cells[5].textContent;
 
-    toggleEditVehicleModal(); // Open the modal
+    vehicleCode = vehical_Code;
+
+    toggleEditVehicleModal(); 
 }
 
-// Initialize table with initial vehicle data
-document.addEventListener('DOMContentLoaded', updateVehicleTable);
+function updateVehicle(event) {
+    event.preventDefault();
+    
+    const licensePlate = document.getElementById('editlicensePlate').value;
+    const category = document.getElementById('editcategory').value;
+    const fuelType = document.getElementById('editfuelType').value;
+    const status = document.getElementById('editstatus').value;
+    const remarks = document.getElementById('editremarks').value;
+    const staffId = document.getElementById('updateStaffIdOnVehicle').value;
+
+    const vehicalData = {
+        vehicleCode,
+        licensePlate,
+        category,
+        fuelType,
+        status,
+        remarks,
+        staffId
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/vehicle",
+        type: "PUT",
+        data: JSON.stringify(vehicalData),
+        contentType: "application/json",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Vehical Update Success ", res);
+            initializeVehical();
+            toggleEditVehicleModal();
+            console.log(vehicalData);
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
+}
+
