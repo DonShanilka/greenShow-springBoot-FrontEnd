@@ -38,8 +38,7 @@ function addLogToTable(log) {
             <td class="px-6 py-4">${log.logDetails || 'N/A'}</td>
             <td class="px-6 py-4"><img src="${log.image || 'crop image'}"class="w-12 h-12 rounded-md object-cover"></td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="toggleUpdateLogModal()
-                ">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editLog(this)">
                 <i class="fas fa-edit text-lg"></i>
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteLog('${log.logCode}')">
@@ -115,8 +114,23 @@ function toggleUpdateLogModal() {
     modal.classList.toggle('hidden');
 }
 
+let logCode = null;
+function editLog(button) {
+    const row = button.parentElement.parentElement;
+    const form = document.getElementById("updateLogForm");
+
+    let log_code = row.cells[0].textContent;
+    form.updateLogDate.value = row.cells[1].textContent;
+    form.updateLogDetails.value = row.cells[2].textContent;
+    form.updateLogImage.value = row.cells[3].textContent;
+    
+    logCode = log_code;
+    toggleUpdateLogModal();
+}
 
 // update log
-function updateLog(button) {
+function updateLog(event) {
+    
+
     toggleUpdateLogModal()
 }

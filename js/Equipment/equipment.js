@@ -142,11 +142,6 @@ function loadFieldOnEquipment() {
 }
 
 
-
-
-
-
-
 // Toggle Add Equipment Modal
 function toggleAddEquipmentModal() {
     document.getElementById("addEquipmentModal").classList.toggle("hidden");
@@ -173,10 +168,7 @@ function addEquipment(event) {
     const status = form.eqstatus.value;
     const fieldIdOnEquipment = form.fieldIdOnEquipment.value;
     const staffIdOnEquipment = form.staffIdOnEquipment.value;
-    // document.getElementById("fieldIdOnEquipment").value
-    // document.getElementById("staffIdOnEquipment").value
 
-    // Manually append fields (optional if you want to handle files and text fields separately)
     formData.append("availableCount", availableCount);
     formData.append("name", name);
     formData.append("type", type);
