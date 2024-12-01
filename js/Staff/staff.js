@@ -56,11 +56,11 @@ function addStaffToTable(staffList) {
             <td class="px-6 py-4">${staff.email || 'N/A'}</td>
             <td class="px-6 py-4">${staff.role || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editStaff(this)">
-                    Edit
+                <button class="text-blue-500 px-3 py-1 rounded-md hover:text-blue-700" onclick="editStaff(this)">
+                    <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteStaff('${staff.id}')">
-                    Delete
+                <button class="text-red-500 px-3 py-1 rounded-md hover:text-red-700" onclick="deleteStaff('${staff.id}')">
+                    <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
         `;

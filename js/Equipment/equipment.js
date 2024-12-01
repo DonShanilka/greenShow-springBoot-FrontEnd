@@ -39,11 +39,11 @@ function addEquipmentToTable(equipments) {
             <td class="px-6 py-4">${equipment.fieldCode || 'N/A'}</td>
             <td class="px-6 py-4">${equipment.staffId || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment(this)">
-                    Edit
+                <button class="text-blue-500 px-3 py-1 rounded-md hover:text-blue-700" onclick="editEquipment(this)">
+                    <i class="fas fa-edit text-lg"></i>
                 </button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteEquipment('${equipment.equipmentId}')">
-                    Delete
+                <button class="text-red-500 px-3 py-1 rounded-md hover:text-red-700" onclick="deleteEquipment('${equipment.equipmentId}')">
+                    <i class="fas fa-trash text-lg"></i>
                 </button>
             </td>
         `;
