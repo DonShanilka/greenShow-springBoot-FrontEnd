@@ -39,7 +39,7 @@ function addEquipmentToTable(equipments) {
             <td class="px-6 py-4">${equipment.fieldCode || 'N/A'}</td>
             <td class="px-6 py-4">${equipment.staffId || 'N/A'}</td>
             <td class="px-6 py-4">
-                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="toggleEditEquipmentModal()">
+                <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-700" onclick="editEquipment(this)">
                     Edit
                 </button>
                 <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-700" onclick="deleteEquipment('${equipment.equipmentId}')">
@@ -79,14 +79,18 @@ function loadStaffOnEquipment() {
             }
 
             const staffIdSelect = document.getElementById('staffIdOnEquipment');
+            const editstaffIdOnEquipment = document.getElementById('editstaffIdOnEquipment');
             $('#staffIdOnEquipment').empty();
+            $('#editstaffIdOnEquipment').empty();
             $('#staffIdOnEquipment').append('<option class="text-blue-500" selected>Select Staff</option>');
+            $('#editstaffIdOnEquipment').append('<option class="text-blue-500" selected>Select Staff</option>');
 
             staffArray.forEach(staff => {
                 const option = document.createElement('option');
                 option.value = staff.id; // Staff ID as the option value
                 option.textContent = staff.name; // Staff name as the displayed text
                 staffIdSelect.appendChild(option);
+                editstaffIdOnEquipment.appendChild(option);
             });
         },
         error: (res) => {
@@ -114,16 +118,21 @@ function loadFieldOnEquipment() {
                 console.error("Unexpected response format", res);
                 return;
             }
+
             console.log(fieldArray)
             const fieldIdSelect = document.getElementById('fieldIdOnEquipment');
+            const editfieldIdOnEquipment = document.getElementById('editfieldIdOnEquipment');
             $('#fieldIdOnEquipment').empty();
+            $('#editfieldIdOnEquipment').empty();
             $('#fieldIdOnEquipment').append('<option class="text-blue-500" selected>Select Field Id</option>');
+            $('#editfieldIdOnEquipment').append('<option class="text-blue-500" selected>Select Field Id</option>');
 
             fieldArray.forEach(field => {
                 const option = document.createElement('option');
                 option.value = field.fieldCode; // Staff ID as the option value
                 option.textContent = field.name; // Staff name as the displayed text
                 fieldIdSelect.appendChild(option);
+                editfieldIdOnEquipment.appendChild(option);
             });
         },
         error: (res) => {
@@ -200,22 +209,21 @@ function addEquipment(event) {
 }
 
 
-
-
-
-
 // Edit Existing Equipment
+let equipmentId = null;
 function editEquipment(button) {
     const row = button.parentElement.parentElement;
     const cells = row.getElementsByTagName("td");
 
     // Populate edit form
     const form = document.getElementById("editEquipmentForm");
-    form.editequipmentId.value = row.rowIndex; // Store row index for update reference
-    // form.editname.value = cells[2].textContent;
-    // form.edittype.value = cells[3].textContent;
-    // form.editavailableCount.value = cells[1].textContent;
-    // form.editstatus.value = cells[4].textContent;
+    let equipment_id = cells[0].textContent; // Store row index for update reference
+    form.editname.value = cells[2].textContent;
+    form.edittype.value = cells[3].textContent;
+    form.editavailableCount.value = cells[1].textContent;
+    form.editstatus.value = cells[4].textContent;
+
+    equipmentId = equipment_id;
 
     toggleEditEquipmentModal();
 }
@@ -223,22 +231,41 @@ function editEquipment(button) {
 // Update Equipment
 function updateEquipment(event) {
     event.preventDefault();
-    const form = event.target;
 
-    const updatedEquipment = {
-        equipmentId: form.equipmentId.value.trim(),
-        name: form.name.value.trim(),
-        type: form.type.value.trim(),
-        availableCount: parseInt(form.availableCount.value, 10),
-        status: form.status.value.trim(),
-    };
+    const availableCount = document.getElementById('editavailableCount').value;
+    const name =  document.getElementById('editname').value;
+    const type = document.getElementById('edittype').value;
+    const status = document.getElementById('editstatus').value;
+    const fieldIdOnEquipment = document.getElementById('editfieldIdOnEquipment').value;
+    const staffIdOnEquipment = document.getElementById('editstaffIdOnEquipment').value;
 
-    const index = equipmentData.findIndex((item) => item.equipmentId === updatedEquipment.equipmentId);
-    if (index !== -1) {
-        equipmentData[index] = updatedEquipment;
-        updateEquipmentTable();
-        toggleEditEquipmentModal();
+    const equipmentData = {
+        equipmentId,
+        availableCount,
+        name,
+        type,
+        status,
+        fieldIdOnEquipment,
+        staffIdOnEquipment
     }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/equipment",
+        type: "PUT",
+        data: JSON.stringify(equipmentData),
+        contentType: "application/json",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log("Equipment Update Success ",res);
+            initializeEquipment();
+            toggleEditEquipmentModal();
+        },
+        error: (res) => {
+            console.error(res);
+        }
+    });
 }
 
 // Delete Equipment
@@ -265,30 +292,7 @@ function deleteEquipment(equipmentId) {
 
 // Update Equipment Table
 function updateEquipmentTable() {
-    const tableBody = document.getElementById("equipmentTableBody");
-    tableBody.innerHTML = ""; // Clear existing rows
-
-    equipmentData.forEach((equipment) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td class="px-6 py-4 text-sm text-gray-800">${equipment.equipmentId}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${equipment.name}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${equipment.type}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${equipment.availableCount}</td>
-            <td class="px-6 py-4 text-sm text-gray-800">${equipment.status}</td>
-            <td class="px-6 py-4 text-sm text-gray-800 flex gap-4">
-                <button 
-                    class="bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600" 
-                    onclick="editEquipment('${equipment.equipmentId}')">Edit</button>
-                <button 
-                    class="bg-red-500 text-white px-3 py-2 rounded-md hover:bg-red-600" 
-                    onclick="deleteEquipment('${equipment.equipmentId}')">Delete</button>
-            </td>
-        `;
-
-        tableBody.appendChild(row);
-    });
+    
 }
 
 // Search Equipment
