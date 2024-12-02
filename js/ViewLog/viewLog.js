@@ -241,3 +241,37 @@ function saveLogField(event) {
 
     form.reset();
 }
+
+// saveLogStaff 
+function saveLogStaff(event) {
+    event.preventDefault();
+
+    const form = document.getElementById("addLogStaff");
+
+    const logId = form.s_logId.value;
+    const staffId = form.s_staffId.value;
+
+    let logStaff = {
+        logId,
+        staffId
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/log/logStaff",
+        type: "POST",
+        data: JSON.stringify(logStaff),
+        headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+           alert("Save LogStaff")
+        },
+        error: (res) => {
+            console.error(res);
+            
+        }
+    });
+
+    form.reset();
+}
