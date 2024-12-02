@@ -4,6 +4,7 @@ function initializeLogView() {
     loadLogIdInViewLog();
     loadFieldOnLog();
     loadStaffOnLog();
+    loadCropOnLog();
 }
 
 function loadLogIdInViewLog() {
@@ -127,6 +128,43 @@ function loadFieldOnLog() {
                 const option = document.createElement('option');
                 option.value = field.fieldCode; 
                 fieldIdSelect.appendChild(option);
+            });
+        },
+        error: (res) => {
+            console.error("Error fetching staff:", res);
+        }
+    });
+}
+
+// Load Crop Id
+function loadCropOnLog() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/crops",
+        type: "GET",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log(res); // Inspect the response to confirm its structure
+            let cropArray = [];
+            if (Array.isArray(res)) {
+                cropArray = res;
+            } else if (res.data && Array.isArray(res.data)) {
+                cropArray = res.data;
+            } else {
+                console.error("Unexpected response format", res);
+                return;
+            }
+
+            console.log("Crop ID ",cropArray)
+            const cropId = document.getElementById('c-cropId');
+            $('#c-cropId').empty();
+            $('#c-cropId').append('<option class="text-blue-500" selected>Select Crop Id</option>');
+
+            cropArray.forEach(crop => {
+                const option = document.createElement('option');
+                option.value = crop.cropCode; 
+                cropId.appendChild(option);
             });
         },
         error: (res) => {
