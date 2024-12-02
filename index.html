@@ -1348,17 +1348,16 @@
 <!-- ############################################ Add Log ################################################# -->
 <section id="addLog" class="content-section fade-in">
     <div class="container mx-auto px-2 py-2">
-
         <!-- crop log form -->
-        <form id="addLogCrop" name="addLogCrop" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full">
+        <form id="addLogCrop" name="addLogCrop" onsubmit="saveLogCrop(event)" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full">
             <h2 class="text-lg font-semibold text-gray-700">Add Crop Log</h2>
             <div>
-              <select id="c-logId" name="c-logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+              <select id="c_logId" name="c_logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 <option value="">Choose Log Id</option>
               </select>
             </div>
             <div>
-              <select id="c-cropId" name="c-cropId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+              <select id="c_cropId" name="c_cropId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 <option value="">Choose Crop Id</option>
               </select>
             </div>
@@ -1370,15 +1369,15 @@
           </form>
 
           <!-- log field form -->
-          <form id="addLogField" name="addLogField" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full mt-4">
+          <form id="addLogField" name="addLogField" onsubmit="addLogField(event)" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full mt-4">
             <h2 class="text-lg font-semibold text-gray-700">Add Field Log</h2>
             <div>
-              <select id="f-logId" name="f-logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+              <select id="f_logId" name="f_logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 <option value="">Choose Log Id</option>
               </select>
             </div>
             <div>
-              <select id="f-fieldId" name="f-fieldId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+              <select id="f_fieldId" name="f_fieldId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 <option value="">Choose Field Id</option>
               </select>
             </div>
@@ -1390,15 +1389,15 @@
           </form>
 
           <!-- log staff form -->
-          <form id="addLogStaff" name="addLogStaff" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full mt-4">
+          <form id="addLogStaff" name="addLogStaff" onsubmit="addLogStaff(event)" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full mt-4">
             <h2 class="text-lg font-semibold text-gray-700">Add Staff Log</h2>
             <div>
-              <select id="s-logId" name="s-logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+              <select id="s_logId" name="s_logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 <option value="">Choose Log Id</option>
               </select>
             </div>
             <div>
-              <select id="s-staffId" name="s-staffId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+              <select id="s_staffId" name="s_staffId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                 <option value="">Choose Staff Id</option>
               </select>
             </div>

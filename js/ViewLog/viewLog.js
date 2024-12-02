@@ -26,17 +26,17 @@ function loadLogIdInViewLog() {
                 return;
             }
 
-            const clogId = document.getElementById('c-logId');
-            const flogId = document.getElementById('f-logId');
-            const slogId = document.getElementById('s-logId');
+            const clogId = document.getElementById('c_logId');
+            const flogId = document.getElementById('f_logId');
+            const slogId = document.getElementById('s_logId');
             
-            $('#c-logId').empty();
-            $('#f-logId').empty();
+            $('#c_logId').empty();
+            $('#f_logId').empty();
             $('#s-logId').empty();
 
-            $('#c-logId').append('<option class="text-blue-500" selected>Select Log</option>');
-            $('#f-logId').append('<option class="text-blue-500" selected>Select Log</option>');
-            $('#s-logId').append('<option class="text-blue-500" selected>Select Log</option>');
+            $('#c_logId').append('<option class="text-blue-500" selected>Select Log</option>');
+            $('#f_logId').append('<option class="text-blue-500" selected>Select Log</option>');
+            $('#s_logId').append('<option class="text-blue-500" selected>Select Log</option>');
 
             logArray.forEach(log => {
                 const option = document.createElement('option');
@@ -83,9 +83,9 @@ function loadStaffOnLog() {
                 return;
             }
 
-            const staffIdSelect = document.getElementById('s-staffId');
-            $('#s-staffId').empty();
-            $('#s-staffId').append('<option class="text-blue-500" selected>Select Staff</option>');
+            const staffIdSelect = document.getElementById('s_staffId');
+            $('#s_staffId').empty();
+            $('#s_staffId').append('<option class="text-blue-500" selected>Select Staff</option>');
 
             staffArray.forEach(staff => {
                 const option = document.createElement('option');
@@ -120,9 +120,9 @@ function loadFieldOnLog() {
             }
 
             console.log("Field ID ",fieldArray)
-            const fieldIdSelect = document.getElementById('f-fieldId');
-            $('#f-fieldId').empty();
-            $('#f-fieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');
+            const fieldIdSelect = document.getElementById('f_fieldId');
+            $('#f_fieldId').empty();
+            $('#f_fieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');
 
             fieldArray.forEach(field => {
                 const option = document.createElement('option');
@@ -157,9 +157,9 @@ function loadCropOnLog() {
             }
 
             console.log("Crop ID ",cropArray)
-            const cropId = document.getElementById('c-cropId');
-            $('#c-cropId').empty();
-            $('#c-cropId').append('<option class="text-blue-500" selected>Select Crop Id</option>');
+            const cropId = document.getElementById('c_cropId');
+            $('#c_cropId').empty();
+            $('#c_cropId').append('<option class="text-blue-500" selected>Select Crop Id</option>');
 
             cropArray.forEach(crop => {
                 const option = document.createElement('option');
@@ -171,4 +171,40 @@ function loadCropOnLog() {
             console.error("Error fetching staff:", res);
         }
     });
+}
+
+
+// Add LogCrop
+function saveLogCrop(event) {
+    event.preventDefault();
+
+    const form = document.getElementById("addLogCrop");
+
+    const logId = form.c_logId.value;
+    const cropId = form.c_cropId.value;
+
+    let logCrop = {
+        logId,
+        cropId
+    }
+
+    // Send the FormData object via AJAX
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/log/logCrops",
+        type: "POST",
+        data: JSON.stringify(logCrop),
+        headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+           alert("Save LogCrop")
+        },
+        error: (res) => {
+            console.error(res);
+            
+        }
+    });
+
+    form.reset();
 }

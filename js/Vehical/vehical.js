@@ -128,16 +128,6 @@ function addVehicle(event) {
     const status = form.status.value;
     const remarks = form.remarks.value;
     const staffId = form.staffIdOnVehicle.value;
-    // form.staffId.value
-
-    // const formData = new FormData(form);
-
-    // formData.append("licensePlate", licensePlate);
-    // formData.append("category", category);
-    // formData.append("fuelType", fuelType);
-    // formData.append("status", status);
-    // formData.append("remarks", remarks);
-    // formData.append("staffId", staffId); 
 
     let vehical = {
         licensePlate,
