@@ -33,8 +33,8 @@
         <!-- Sidebar -->
         <div class="w-64 bg-white text-gray-800 shadow-xl flex flex-col transition-all duration-300">
             <!-- Logo -->
-            <div class="px-6 py-8">
-                <h1 class="text-2xl font-bold tracking-wider text-primary-dark">Green Show</h1>
+            <div class="px-2 py-4">
+                
             </div>
             
             <!-- Navigation -->
@@ -74,7 +74,11 @@
                 </button>
                 <button onclick="showSection('log')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 mb-2 rounded-lg transition-all duration-200 hover:bg-green-600 hover:shadow-lg transform hover:scale-105 hover:text-white">
                     <i class="fas fa-tag w-5"></i>
-                    <span class="font-medium">Log</span>
+                    <span class="font-medium">Create Log</span>
+                </button>
+                <button onclick="showSection('addLog')" class="nav-item w-full flex items-center space-x-3 px-4 py-3 mb-2 rounded-lg transition-all duration-200 hover:bg-green-600 hover:shadow-lg transform hover:scale-105 hover:text-white">
+                    <i class="fas fa-tag w-5"></i>
+                    <span class="font-medium">Add Log</span>
                 </button>
             </nav>
             
@@ -1338,8 +1342,73 @@
                 <!-- Logs will be dynamically added here -->
             </tbody>
         </table>
+    </div>  
+</section>
+
+<!-- ############################################ Add Log ################################################# -->
+<section id="addLog" class="content-section fade-in">
+    <div class="container mx-auto px-2 py-2">
+
+        <!-- crop log form -->
+        <form id="addLogCrop" name="addLogCrop" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full">
+            <h2 class="text-lg font-semibold text-gray-700">Add Crop Log</h2>
+            <div>
+              <select id="c-logId" name="c-logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">Choose Log Id</option>
+              </select>
+            </div>
+            <div>
+              <select id="c-cropId" name="c-cropId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">Choose Crop Id</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="w-32 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:ring-2 focus:ring-blue-400 focus:outline-none ">
+                Save
+              </button>
+            </div>
+          </form>
+
+          <!-- log field form -->
+          <form id="addLogField" name="addLogField" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full mt-4">
+            <h2 class="text-lg font-semibold text-gray-700">Add Field Log</h2>
+            <div>
+              <select id="f-logId" name="f-logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">Choose Log Id</option>
+              </select>
+            </div>
+            <div>
+              <select id="f-fieldId" name="f-fieldId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">Choose Field Id</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="w-32 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:ring-2 focus:ring-blue-400 focus:outline-none ">
+                Save
+              </button>
+            </div>
+          </form>
+
+          <!-- log staff form -->
+          <form id="addLogStaff" name="addLogStaff" class="bg-white p-2 rounded-lg shadow-md space-y-2 w-full mt-4">
+            <h2 class="text-lg font-semibold text-gray-700">Add Staff Log</h2>
+            <div>
+              <select id="s-logId" name="s-logId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">Choose Log Id</option>
+              </select>
+            </div>
+            <div>
+              <select id="s-staffId" name="s-staffId" class="w-full px-3 py-2 border rounded-md text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                <option value="">Choose Staff Id</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="w-32 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:ring-2 focus:ring-blue-400 focus:outline-none ">
+                Save
+              </button>
+            </div>
+          </form>
     </div>
-    
 </section>
           
         </div>
@@ -1356,5 +1425,6 @@
     <script src="./js/Equipment/equipment.js"></script>   
     <script src="./js/User/user.js"></script>   
     <script src="./js/Log/LogPage.js"></script>   
+    <script src="./js/ViewLog/viewLog.js"></script>   
 </body>
 </html>
