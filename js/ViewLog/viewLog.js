@@ -188,7 +188,6 @@ function saveLogCrop(event) {
         cropId
     }
 
-    // Send the FormData object via AJAX
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/log/logCrops",
         type: "POST",
@@ -199,6 +198,40 @@ function saveLogCrop(event) {
         },
         success: (res) => {
            alert("Save LogCrop")
+        },
+        error: (res) => {
+            console.error(res);
+            
+        }
+    });
+
+    form.reset();
+}
+
+// saveLogField 
+function saveLogField(event) {
+    event.preventDefault();
+
+    const form = document.getElementById("addLogField");
+
+    const logId = form.f_logId.value;
+    const fieldId = form.f_fieldId.value;
+
+    let logField = {
+        logId,
+        fieldId
+    }
+
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/log/logField",
+        type: "POST",
+        data: JSON.stringify(logField),
+        headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+           alert("Save LogField")
         },
         error: (res) => {
             console.error(res);
