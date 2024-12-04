@@ -14,7 +14,7 @@ function loadEquipmentTable() {
             addEquipmentToTable(res.data); 
         },
         error: (err) => {
-            console.error("Error loading vehicle data:", err);
+            // console.error("Error loading vehicle data:", err);
         }
     });
 }

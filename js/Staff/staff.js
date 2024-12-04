@@ -224,6 +224,7 @@ function editStaff(button) {
     form.contactNo.value = row.cells[12].textContent;
     form.email.value = row.cells[13].textContent;
     form.role.valueOf = row.cells[14].textContent;
+    form.editstaffFieldId.valueOf = row.cells[15].textContent;
 
     id = staffCode;
 
@@ -248,6 +249,7 @@ function updateStaff(event) {
     const addressLine3 = document.getElementById('editaddress3').value;
     const addressLine4 = document.getElementById('editaddress4').value;
     const addressLine5 = document.getElementById('editaddress5').value;
+    const fieldCode = document.getElementById("editstaffFieldId").value;
 
     const staffData = {
         id,
@@ -264,7 +266,8 @@ function updateStaff(event) {
         addressLine5,
         contactNo,
         email,
-        role
+        role,
+        fieldCode
     }
 
     $.ajax({
@@ -276,7 +279,7 @@ function updateStaff(event) {
             // "Authorization": "Bearer " + localStorage.getItem('token')
         },
         success: (res) => {
-            console.log("Staff Update Success ",res);
+            alert("Staff Update Success ");
             initializeStaff();
             toggleUpdateStaffModal();
         },

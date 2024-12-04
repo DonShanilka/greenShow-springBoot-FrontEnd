@@ -1,3 +1,5 @@
+initializeVehical();
+
 function initializeVehical() {
     loadVehicalTable();
     loadStaffOnVehicle();
@@ -95,6 +97,14 @@ function loadStaffOnVehicle() {
                 option.value = staff.id; // Staff ID as the option value
                 option.textContent = staff.name; // Staff name as the displayed text
                 staffIdSelect.appendChild(option);
+                // updateStaffIdOnVehicle.appendChild(option);
+            });
+
+            staffArray.forEach(staff => {
+                const option = document.createElement('option');
+                option.value = staff.id; // Staff ID as the option value
+                option.textContent = staff.name; // Staff name as the displayed text
+                // staffIdSelect.appendChild(option);
                 updateStaffIdOnVehicle.appendChild(option);
             });
         },

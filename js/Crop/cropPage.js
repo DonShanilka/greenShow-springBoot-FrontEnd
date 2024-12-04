@@ -14,7 +14,7 @@ function loadCropTable(){
             addCropToTable(res.data)
         },
         error: (res) => {
-            console.error(res);
+            // console.error(res);
         }
     });
 }
@@ -60,7 +60,7 @@ function loadFieldOnLog() {
             });
         },
         error: (res) => {
-            console.error("Error fetching staff:", res);
+            // console.error("Error fetching staff:", res);
         }
     });
 }
@@ -166,15 +166,14 @@ function addCrop(event) {
         contentType: false,  // Don't set content type as jQuery will set it to multipart/form-data automatically
         success: (res) => {
             alert("Crop saved successfully!");
+            toggleAddModal();
+            form.reset();
+            loadCropTable();
         },
         error: (err) => {
             console.error("Error saving crop:", err);
         }
     });
-
-    // Close modal and reset form
-    toggleAddModal();
-    form.reset();
 }
 
 
@@ -230,10 +229,9 @@ function updateCrop(event) {
         processData: false,  // Don't process the data (important for file upload)
         contentType: false,
         success: (res) => {
-            console.log(res);
             loadCropTable()
             toggleEditModal();
-            console.log("Update Crops", fieldCode)
+            alert("Update Crops")
         },
         error: (res) => {
             console.error(res);
@@ -250,7 +248,7 @@ function deleteCrop(cropCode) {
             // "Authorization": "Bearer " + localStorage.getItem('token')
         },
         success: (res) => {
-            console.log("Crop deleted successfully:", res);
+            alert("Crop Delete Success")
             loadCropTable()
         },
         error: (err) => {
