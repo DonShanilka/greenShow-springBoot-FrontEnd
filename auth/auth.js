@@ -62,10 +62,10 @@ signInButton.addEventListener('click', () => {
             const role = document.getElementById('role').value;
 
             // Basic validation
-            // if (!validateEmail(email)) {
-            //     showError('email', 'Please enter a valid email address');
-            //     return;
-            // }
+            if (!validateEmail(email)) {
+                showError('email', 'Please enter a valid email address');
+                return;
+            }
 
             if (password.length < 6) {
                 showError('password', 'Password must be at least 6 characters');
@@ -103,3 +103,8 @@ signInButton.addEventListener('click', () => {
 
         });
     }
+
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
