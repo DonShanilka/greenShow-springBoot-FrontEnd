@@ -1,5 +1,8 @@
+initializeStaff();
+
 function initializeStaff() {
     loadStaffTable();
+    loadFieldOnLog();
 }
 
 function loadStaffTable() {
@@ -21,6 +24,54 @@ function loadStaffTable() {
         }
     });
 }
+
+
+// Load Field Id
+function loadFieldOnLog() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/field",
+        type: "GET",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log(res); // Inspect the response to confirm its structure
+            let fieldArray = [];
+            if (Array.isArray(res)) {
+                fieldArray = res;
+            } else if (res.data && Array.isArray(res.data)) {
+                fieldArray = res.data;
+            } else {
+                console.error("Unexpected response format", res);
+                return;
+            }
+
+            // console.log("Field ID ",fieldArray)
+            const fieldIdSelect = document.getElementById('staffFieldId');
+            const editFieldId = document.getElementById('editstaffFieldId');
+            $('#staffFieldId').empty();
+            $('#editCropFieldId').empty();
+            $('#staffFieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');
+            $('#editstaffFieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');
+
+            fieldArray.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.fieldCode; 
+                fieldIdSelect.appendChild(option);
+            });
+
+            fieldArray.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.fieldCode; 
+                editFieldId.appendChild(option);
+            });
+        },
+        error: (res) => {
+            console.error("Error fetching staff:", res);
+        }
+    });
+}
+
 
 function addStaffToTable(staffList) {
     const staffTableBody = document.getElementById("staffTableBody");
@@ -55,6 +106,7 @@ function addStaffToTable(staffList) {
             <td class="px-6 py-4">${staff.contactNo || 'N/A'}</td>
             <td class="px-6 py-4">${staff.email || 'N/A'}</td>
             <td class="px-6 py-4">${staff.role || 'N/A'}</td>
+            <td class="px-6 py-4">${staff.fieldCode || 'N/A'}</td>
             <td class="px-6 py-4">
                 <button class="text-blue-500 px-3 py-1 rounded-md hover:text-blue-700" onclick="editStaff(this)">
                     <i class="fas fa-edit text-lg"></i>
@@ -107,6 +159,7 @@ function saveStaff(event) {
     const contactNo = form.contactNo.value;
     const email = form.email.value;
     const role = document.getElementById("role").value;
+    const fieldCode = document.getElementById("staffFieldId").value;
 
     let staff = {
         firstName,
@@ -122,7 +175,8 @@ function saveStaff(event) {
         addressLine5,
         contactNo,
         email,
-        role
+        role,
+        fieldCode
     }
 
     let jsonStaff = JSON.stringify(staff)

@@ -51,13 +51,11 @@ function loadFieldOnLog() {
                 const option = document.createElement('option');
                 option.value = field.fieldCode; 
                 fieldIdSelect.appendChild(option);
-                // editCropFieldId.appendChild(option);
             });
 
             fieldArray.forEach(field => {
                 const option = document.createElement('option');
                 option.value = field.fieldCode; 
-                // fieldIdSelect.appendChild(option);
                 editCropFieldId.appendChild(option);
             });
         },
