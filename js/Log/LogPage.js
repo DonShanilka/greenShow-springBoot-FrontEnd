@@ -10,7 +10,7 @@ function loadLogTable(){
         type: "GET",
         success: (res) => {
             addLogToTable(res.data);
-            console.log(res.data);
+            // console.log(res.data);
         },
         error: (res) => {
             console.error(res);
@@ -105,7 +105,7 @@ function deleteLog(logCode) {
             console.error("Error deleting crop:", err);
         }
     });
-    console.log(logCode);  
+    // console.log(logCode);  
 }
 
 // update form modal 

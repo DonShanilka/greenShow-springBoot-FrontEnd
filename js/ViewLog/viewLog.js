@@ -119,7 +119,7 @@ function loadFieldOnLog() {
                 return;
             }
 
-            console.log("Field ID ",fieldArray)
+            // console.log("Field ID ",fieldArray)
             const fieldIdSelect = document.getElementById('f_fieldId');
             $('#f_fieldId').empty();
             $('#f_fieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');

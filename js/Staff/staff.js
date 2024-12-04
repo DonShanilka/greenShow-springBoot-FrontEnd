@@ -230,7 +230,7 @@ function updateStaff(event) {
             console.error(res);
         }
     });
-    console.log(id);
+    // console.log(id);
 }
 
 

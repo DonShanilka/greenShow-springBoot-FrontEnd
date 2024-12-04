@@ -1,7 +1,9 @@
-initializeCrop()
+initializeCrop();
+loadFieldOnLog();
 
 function initializeCrop(){
-    loadCropTable()
+    loadCropTable();
+    loadFieldOnLog();
 }
 
 function loadCropTable(){
@@ -16,6 +18,55 @@ function loadCropTable(){
         }
     });
 }
+
+// Load Field Id
+function loadFieldOnLog() {
+    $.ajax({
+        url: "http://localhost:5050/greenshow/api/v1/field",
+        type: "GET",
+        headers: {
+            // "Authorization": "Bearer " + localStorage.getItem('token')
+        },
+        success: (res) => {
+            console.log(res); // Inspect the response to confirm its structure
+            let fieldArray = [];
+            if (Array.isArray(res)) {
+                fieldArray = res;
+            } else if (res.data && Array.isArray(res.data)) {
+                fieldArray = res.data;
+            } else {
+                console.error("Unexpected response format", res);
+                return;
+            }
+
+            // console.log("Field ID ",fieldArray)
+            const fieldIdSelect = document.getElementById('cropFieldId');
+            const editCropFieldId = document.getElementById('editCropFieldId');
+            $('#cropFieldId').empty();
+            $('#editCropFieldId').empty();
+            $('#cropFieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');
+            $('#editCropFieldId').append('<option class="text-blue-500" selected>Select Field Id</option>');
+
+            fieldArray.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.fieldCode; 
+                fieldIdSelect.appendChild(option);
+                // editCropFieldId.appendChild(option);
+            });
+
+            fieldArray.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field.fieldCode; 
+                // fieldIdSelect.appendChild(option);
+                editCropFieldId.appendChild(option);
+            });
+        },
+        error: (res) => {
+            console.error("Error fetching staff:", res);
+        }
+    });
+}
+
 
 
 function addCropToTable(crops) {
@@ -38,6 +89,7 @@ function addCropToTable(crops) {
             <td class="px-6 py-4">${crop.scientificName || 'N/A'}</td>
             <td class="px-6 py-4">${crop.category || 'N/A'}</td>
             <td class="px-6 py-4">${crop.season || 'N/A'}</td>
+            <td class="px-6 py-4">${crop.fieldCode || 'N/A'}</td>
             <td class="px-6 py-4">
                 <button class="text-blue-500 px-3 py-1 rounded-md hover:text-blue-700" onclick="editCrop(this)">
                     <i class="fas fa-edit text-lg"></i>
@@ -94,12 +146,14 @@ function addCrop(event) {
     const scientificName = form.scientificName.value;
     const category = form.category.value;
     const season = form.season.value;
+    const fieldCode = form.cropFieldId.value;
 
     // Manually append fields (optional if you want to handle files and text fields separately)
     formData.append("cropName", cropName);
     formData.append("scientificName", scientificName);
     formData.append("category", category);
     formData.append("season", season);
+    formData.append("fieldCode",fieldCode);
     
     if (cropImage) {
         formData.append("cropImage", cropImage);  // Append the file for upload
@@ -154,6 +208,7 @@ function updateCrop(event) {
     const editCropImage = document.getElementById('editCropImage').files[0];
     const editCategory = document.getElementById('editCategory').value;
     const editSeason = document.getElementById('editSeason').value;
+    const fieldCode = document.getElementById('editCropFieldId').value;
 
     const formData = new FormData(form);
 
@@ -161,6 +216,7 @@ function updateCrop(event) {
     formData.append("scientificName", editScientificName);
     formData.append("category", editCategory);
     formData.append("season", editSeason);
+    formData.append("fieldCode", fieldCode);
     
     if (editCropImage) {
         formData.append("cropImage", editCropImage);  // Append the file for upload
@@ -179,7 +235,7 @@ function updateCrop(event) {
             console.log(res);
             loadCropTable()
             toggleEditModal();
-            console.log("Update Crops")
+            console.log("Update Crops", fieldCode)
         },
         error: (res) => {
             console.error(res);

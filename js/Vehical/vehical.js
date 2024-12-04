@@ -233,7 +233,7 @@ function updateVehicle(event) {
             console.log("Vehical Update Success ", res);
             initializeVehical();
             toggleEditVehicleModal();
-            console.log(vehicalData);
+            // console.log(vehicalData);
         },
         error: (res) => {
             console.error(res);

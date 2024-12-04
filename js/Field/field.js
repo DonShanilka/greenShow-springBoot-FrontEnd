@@ -203,5 +203,5 @@ function deleteField(fieldCode) {
             console.error("Error deleting crop:", err);
         }
     });
-    console.log(fieldCode);
+    // console.log(fieldCode);
 }

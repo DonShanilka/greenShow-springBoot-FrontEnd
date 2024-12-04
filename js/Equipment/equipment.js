@@ -119,7 +119,7 @@ function loadFieldOnEquipment() {
                 return;
             }
 
-            console.log(fieldArray)
+            // console.log(fieldArray)
             const fieldIdSelect = document.getElementById('fieldIdOnEquipment');
             const editfieldIdOnEquipment = document.getElementById('editfieldIdOnEquipment');
             $('#fieldIdOnEquipment').empty();
@@ -176,8 +176,8 @@ function addEquipment(event) {
     formData.append("fieldIdOnEquipment", fieldIdOnEquipment);
     formData.append("staffIdOnEquipment", staffIdOnEquipment);
 
-    console.log(formData);
-    console.log(availableCount,name,type,status,fieldIdOnEquipment,staffIdOnEquipment)
+    // console.log(formData);
+    // console.log(availableCount,name,type,status,fieldIdOnEquipment,staffIdOnEquipment)
 
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/equipment",
