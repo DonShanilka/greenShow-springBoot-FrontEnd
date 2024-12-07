@@ -1,15 +1,21 @@
 initializeEquipment()
 
+
 function initializeEquipment() {
     loadEquipmentTable();
     loadStaffOnEquipment();
     loadFieldOnEquipment()
+    
 }
 
 function loadEquipmentTable() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/equipment",
         type: "GET",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             addEquipmentToTable(res.data); 
         },
@@ -60,11 +66,12 @@ document.addEventListener("DOMContentLoaded", initializeVehical);
 
 // Load Staff Id
 function loadStaffOnEquipment() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/staff",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -101,11 +108,12 @@ function loadStaffOnEquipment() {
 
 // Load Field Id
 function loadFieldOnEquipment() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -156,6 +164,7 @@ function toggleEditEquipmentModal() {
 // Add New Equipment
 function addEquipment(event) {
     event.preventDefault(); // Prevent form submission
+    let jwtToken = localStorage.getItem('jwtToken');
 
     const form = document.getElementById("addEquipmentForm");
 
@@ -184,7 +193,10 @@ function addEquipment(event) {
         type: "POST",
         data: formData,
         processData: false, // Prevent jQuery from processing data
-        contentType: false, // Let the browser set the correct boundary
+        contentType: false,
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        }, // Let the browser set the correct boundary
         success: (res) => {
             alert("Equipment saved successfully!");
             loadEquipmentTable(); // Reload the table
@@ -206,6 +218,7 @@ let equipmentId = null;
 function editEquipment(button) {
     const row = button.parentElement.parentElement;
     const cells = row.getElementsByTagName("td");
+    let jwtToken = localStorage.getItem('jwtToken');
 
     // Populate edit form
     const form = document.getElementById("editEquipmentForm");
@@ -223,6 +236,7 @@ function editEquipment(button) {
 // Update Equipment
 function updateEquipment(event) {
     event.preventDefault();
+    let jwtToken = localStorage.getItem('jwtToken');
 
     const availableCount = document.getElementById('editavailableCount').value;
     const name =  document.getElementById('editname').value;
@@ -247,7 +261,7 @@ function updateEquipment(event) {
         data: JSON.stringify(equipmentData),
         contentType: "application/json",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log("Equipment Update Success ",res);
@@ -262,11 +276,12 @@ function updateEquipment(event) {
 
 // Delete Equipment
 function deleteEquipment(equipmentId) {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: `http://localhost:5050/greenshow/api/v1/equipment/${equipmentId}`,
         type: "DELETE",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log("Equipment deleted successfully:", res);

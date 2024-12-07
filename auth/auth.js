@@ -28,19 +28,12 @@ if (loginForm) {
         $.ajax({
             url: "http://localhost:5050/greenshow/api/v1/auth/signIn",
             type: "POST",
-            data: userData,
+            data: JSON.stringify(userData),
             contentType: "application/json",
             success: (res) => {
-    
-                if (res.token) {
-                    console.log(res.token);
-                    localStorage.setItem("jwtToken", res.token); 
-    
-                    window.location.href = "index1.html";
-                } else {
-                    console.error("Token not found in response");
-
-                }
+                localStorage.setItem("jwtToken", res.token);
+                alert("Login Successful");
+                window.location.href = "../index.html";
             },
             error: (res) => {
                 console.error(res);

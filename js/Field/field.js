@@ -2,14 +2,19 @@ initializeField()
 
 function initializeField(){
     loadFieldTable()
+  
 }
 
 function loadFieldTable() {
+    let jwtToken = localStorage.getItem('jwtToken');
+    console.log(jwtToken)
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "GET",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
-            // Assuming the response contains a 'data' field with an array of fields
             addFieldToTable(res);
         },
         error: (err) => {
@@ -78,6 +83,8 @@ function addField(event) {
 
     const form = document.getElementById("addFieldForm");
     const fieldTableBody = document.getElementById("fieldTableBody");
+    let jwtToken = localStorage.getItem('jwtToken');
+    console.log(jwtToken)
 
     // Extract form data
     // const fieldCode = form.fieldCode.value.trim();
@@ -108,7 +115,10 @@ function addField(event) {
         type: "POST",
         data: formData,
         processData: false,  // Don't process the data (important for file upload)
-        contentType: false,  // Don't set content type as jQuery will set it to multipart/form-data automatically
+        contentType: false,
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },  // Don't set content type as jQuery will set it to multipart/form-data automatically
         success: (res) => {
             alert("Field saved successfully!");
         },
@@ -170,11 +180,14 @@ function updateField(event) {
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "PUT",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
-        },
+            Authorization: `Bearer ${jwtToken}`
+        }, 
         data: formData,
         processData: false, 
         contentType: false,
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             console.log(res);
             loadFieldTable();
@@ -193,7 +206,7 @@ function deleteField(fieldCode) {
         url: `http://localhost:5050/greenshow/api/v1/field/${fieldCode}`,
         type: "DELETE",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log("Equipment deleted successfully:", res);

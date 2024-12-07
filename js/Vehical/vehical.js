@@ -6,9 +6,13 @@ function initializeVehical() {
 }
 
 function loadVehicalTable() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/vehicle",
         type: "GET",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             // Assuming the response contains a 'data' field with an array of vehicles
             if (Array.isArray(res)) {
@@ -67,11 +71,12 @@ function addVehicalToTable(vehicles) {
 
 
 function loadStaffOnVehicle() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/staff",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -131,6 +136,7 @@ function addVehicle(event) {
     event.preventDefault();
 
     const form = document.getElementById("addVehicleForm");
+    let jwtToken = localStorage.getItem('jwtToken');
 
     const licensePlate = form.licensePlate.value;
     const category = form.category.value;
@@ -157,7 +163,7 @@ function addVehicle(event) {
         data: jsonVehical,
         headers: {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
            alert("Save Vehical")
@@ -176,11 +182,12 @@ function addVehicle(event) {
 
 // Delete vehicle
 function deleteVehicle(vehicleCode) {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: `http://localhost:5050/greenshow/api/v1/vehicle/${vehicleCode}`,
         type: "DELETE",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log("Vehical deleted successfully:", res);
@@ -213,7 +220,7 @@ function editVehicle(button) {
 
 function updateVehicle(event) {
     event.preventDefault();
-    
+    let jwtToken = localStorage.getItem('jwtToken');
     const licensePlate = document.getElementById('editlicensePlate').value;
     const category = document.getElementById('editcategory').value;
     const fuelType = document.getElementById('editfuelType').value;
@@ -237,7 +244,7 @@ function updateVehicle(event) {
         data: JSON.stringify(vehicalData),
         contentType: "application/json",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log("Vehical Update Success ", res);

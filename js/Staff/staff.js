@@ -6,9 +6,13 @@ function initializeStaff() {
 }
 
 function loadStaffTable() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/staff",
         type: "GET",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             // Assuming the response is an array or contains a 'data' field with an array of staff
             if (Array.isArray(res)) {
@@ -28,11 +32,12 @@ function loadStaffTable() {
 
 // Load Field Id
 function loadFieldOnLog() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -75,6 +80,7 @@ function loadFieldOnLog() {
 
 function addStaffToTable(staffList) {
     const staffTableBody = document.getElementById("staffTableBody");
+    
 
     // Clear any existing rows in the table
     staffTableBody.innerHTML = "";
@@ -142,6 +148,7 @@ function toggleUpdateStaffModal() {
 // Function to handle form submission and add new staff
 function saveStaff(event) {
     event.preventDefault(); // Prevent the form from refreshing the page
+    let jwtToken = localStorage.getItem('jwtToken');
 
     const form = document.getElementById("addStaffForm");
 
@@ -187,20 +194,20 @@ function saveStaff(event) {
         data: jsonStaff,
         headers: {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
            alert("Save Vehical")
+           toggleAddStaffModal();
         },
         error: (res) => {
             console.error(res);
-            
+            alert("Cannot Save")
         }
     });
 
     form.reset();
     // Close the modal after saving
-    toggleAddStaffModal();
 }
 
 
@@ -234,6 +241,7 @@ function editStaff(button) {
 
 function updateStaff(event) {
     event.preventDefault();
+    let jwtToken = localStorage.getItem('jwtToken');
     
     const firstName = document.getElementById('editfirstName').value;
     const lastName = document.getElementById('editlastName').value;
@@ -276,7 +284,7 @@ function updateStaff(event) {
         data: JSON.stringify(staffData),
         contentType: "application/json",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             alert("Staff Update Success ");
@@ -292,14 +300,15 @@ function updateStaff(event) {
 
 
 function deleteStaff(staffId) {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: `http://localhost:5050/greenshow/api/v1/staff/${staffId}`,
         type: "DELETE",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
-            console.log("Staff deleted successfully:", res);
+            alert("Staff deleted successfully:");
             loadStaffTable()
         },
         error: (err) => {

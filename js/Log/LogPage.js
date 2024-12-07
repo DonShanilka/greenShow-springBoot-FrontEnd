@@ -5,9 +5,13 @@ function initializeCrop(){
 }
 
 function loadLogTable(){
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/log",
         type: "GET",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             addLogToTable(res.data);
             // console.log(res.data);
@@ -56,7 +60,7 @@ function addLogToTable(log) {
 //  Save Log
 document.getElementById('logForm').addEventListener('submit', function(e) {
     e.preventDefault(); 
-
+    let jwtToken = localStorage.getItem('jwtToken');
     const formData = new FormData();
     const logDate = document.getElementById('logDate').value;
     const logDetails = document.getElementById('logDetails').value;
@@ -76,6 +80,9 @@ document.getElementById('logForm').addEventListener('submit', function(e) {
         data: formData,
         processData: false, 
         contentType: false, 
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             alert('Log saved successfully!');
             console.log('Server Response:', res);
@@ -91,11 +98,12 @@ document.getElementById('logForm').addEventListener('submit', function(e) {
 
 // Log Delete 
 function deleteLog(logCode) {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: `http://localhost:5050/greenshow/api/v1/log/${logCode}`,
         type: "DELETE",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log("Log deleted successfully:", res);
@@ -132,6 +140,7 @@ function editLog(button) {
 function updateLog(event) {
     event.preventDefault();
     const form = document.getElementById("editCropForm");
+    let jwtToken = localStorage.getItem('jwtToken');
 
     const logDate = document.getElementById('updateLogDate').value;
     const logDetails = document.getElementById('updateLogDetails').value;
@@ -151,7 +160,7 @@ function updateLog(event) {
         url: "http://localhost:5050/greenshow/api/v1/log",
         type: "PUT",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         data: formData,
         processData: false,  // Don't process the data (important for file upload)

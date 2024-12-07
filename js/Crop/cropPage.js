@@ -1,5 +1,6 @@
 initializeCrop();
 loadFieldOnLog();
+let jwtToken = localStorage.getItem('jwtToken');
 
 function initializeCrop(){
     loadCropTable();
@@ -7,9 +8,14 @@ function initializeCrop(){
 }
 
 function loadCropTable(){
+    let jwtToken = localStorage.getItem('jwtToken');
+    console.log("jwt token"+jwtToken)
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/crops",
         type: "GET",
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             addCropToTable(res.data)
         },
@@ -21,11 +27,13 @@ function loadCropTable(){
 
 // Load Field Id
 function loadFieldOnLog() {
+    let jwtToken = localStorage.getItem('jwtToken');
+    console.log("jwt token"+jwtToken)
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -157,13 +165,19 @@ function addCrop(event) {
         formData.append("cropImage", cropImage);  // Append the file for upload
     }
 
+
+    console.log("jwt token"+jwtToken)
+
     // Send the FormData object via AJAX
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/crops",
         type: "POST",
         data: formData,
         processData: false,  // Don't process the data (important for file upload)
-        contentType: false,  // Don't set content type as jQuery will set it to multipart/form-data automatically
+        contentType: false, 
+        headers: {
+            Authorization: `Bearer ${jwtToken}`
+        },
         success: (res) => {
             alert("Crop saved successfully!");
             toggleAddModal();
@@ -200,6 +214,8 @@ function updateCrop(event) {
     event.preventDefault();
     const form = document.getElementById("editCropForm");
 
+    console.log("jwt token"+jwtToken)
+
     const editCropName = document.getElementById('editCropName').value;
     const editScientificName = document.getElementById('editScientificName').value;
     const editCropImage = document.getElementById('editCropImage').files[0];
@@ -209,6 +225,7 @@ function updateCrop(event) {
 
     const formData = new FormData(form);
 
+    formData.append("cropCode", cId);
     formData.append("cropName", editCropName);
     formData.append("scientificName", editScientificName);
     formData.append("category", editCategory);
@@ -220,15 +237,15 @@ function updateCrop(event) {
     }
 
     $.ajax({
-        url: "http://localhost:5050/greenshow/api/v1/crops/" + cId,
+        url: "http://localhost:5050/greenshow/api/v1/crops" ,
         type: "PUT",
         headers: {
-            "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         data: formData,
         processData: false,  // Don't process the data (important for file upload)
         contentType: false,
-        success: (res) => {
+         success: (res) => {
             loadCropTable()
             toggleEditModal();
             alert("Update Crops")
@@ -241,11 +258,13 @@ function updateCrop(event) {
 
 // Delete Crop
 function deleteCrop(cropCode) {
+    let jwtToken = localStorage.getItem('jwtToken');
+    console.log("jwt token"+jwtToken)
     $.ajax({
         url: `http://localhost:5050/greenshow/api/v1/crops/${cropCode}`,
         type: "DELETE",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             alert("Crop Delete Success")

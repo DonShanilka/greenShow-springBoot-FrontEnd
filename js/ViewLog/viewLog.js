@@ -8,11 +8,12 @@ function initializeLogView() {
 }
 
 function loadLogIdInViewLog() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/log",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -65,11 +66,12 @@ function loadLogIdInViewLog() {
 
 // Load Staff Id
 function loadStaffOnLog() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/staff",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -101,11 +103,12 @@ function loadStaffOnLog() {
 
 // Load Field Id
 function loadFieldOnLog() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/field",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -138,11 +141,12 @@ function loadFieldOnLog() {
 
 // Load Crop Id
 function loadCropOnLog() {
+    let jwtToken = localStorage.getItem('jwtToken');
     $.ajax({
         url: "http://localhost:5050/greenshow/api/v1/crops",
         type: "GET",
         headers: {
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
             console.log(res); // Inspect the response to confirm its structure
@@ -177,7 +181,7 @@ function loadCropOnLog() {
 // Add LogCrop
 function saveLogCrop(event) {
     event.preventDefault();
-
+    let jwtToken = localStorage.getItem('jwtToken');
     const form = document.getElementById("addLogCrop");
 
     const logId = form.c_logId.value;
@@ -194,7 +198,7 @@ function saveLogCrop(event) {
         data: JSON.stringify(logCrop),
         headers: {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
            alert("Save LogCrop")
@@ -211,7 +215,7 @@ function saveLogCrop(event) {
 // saveLogField 
 function saveLogField(event) {
     event.preventDefault();
-
+    let jwtToken = localStorage.getItem('jwtToken');
     const form = document.getElementById("addLogField");
 
     const logId = form.f_logId.value;
@@ -228,7 +232,7 @@ function saveLogField(event) {
         data: JSON.stringify(logField),
         headers: {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
            alert("Save LogField")
@@ -245,7 +249,7 @@ function saveLogField(event) {
 // saveLogStaff 
 function saveLogStaff(event) {
     event.preventDefault();
-
+    let jwtToken = localStorage.getItem('jwtToken');
     const form = document.getElementById("addLogStaff");
 
     const logId = form.s_logId.value;
@@ -262,7 +266,7 @@ function saveLogStaff(event) {
         data: JSON.stringify(logStaff),
         headers: {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer " + localStorage.getItem('token')
+            Authorization: `Bearer ${jwtToken}`
         },
         success: (res) => {
            alert("Save LogStaff")
